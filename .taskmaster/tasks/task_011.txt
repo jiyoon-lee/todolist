@@ -1,0 +1,148 @@
+# Task ID: 11
+# Title: Project Setup and Firebase Configuration
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: Initialize React project with TypeScript and configure Firebase services
+# Details:
+1. Create a new React project using Vite with TypeScript template
+2. Install required dependencies (firebase, react-router-dom, tailwind CSS)
+3. Set up project structure according to the PRD component structure
+4. Create Firebase project in Firebase Console
+5. Enable Authentication (Email/Password and Google) and Firestore services
+6. Create firebase.ts utility file with initialization code:
+```typescript
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
+};
+
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+```
+7. Create .env file for Firebase configuration keys
+8. Set up basic routing structure with react-router-dom
+
+# Test Strategy:
+1. Verify project builds successfully without errors
+2. Confirm Firebase initialization works by checking console for errors
+3. Test connection to Firebase services with a simple read/write operation
+4. Validate environment variables are properly loaded
+5. Ensure project structure matches the PRD specifications
+
+# Subtasks:
+## 1. Initialize React Project with TypeScript and Dependencies [pending]
+### Dependencies: None
+### Description: Create a new React project using Vite with TypeScript template and install all required dependencies for the application.
+### Details:
+1. Install Node.js and npm if not already installed
+2. Run `npm create vite@latest my-todo-app --template react-ts` to create a new React project with TypeScript
+3. Navigate to the project directory: `cd my-todo-app`
+4. Install Firebase: `npm install firebase`
+5. Install React Router: `npm install react-router-dom`
+6. Install Tailwind CSS: `npm install -D tailwindcss postcss autoprefixer`
+7. Initialize Tailwind CSS: `npx tailwindcss init -p`
+8. Configure Tailwind CSS by updating the tailwind.config.js file to include your template paths
+9. Add Tailwind directives to your CSS file
+10. Test the installation by running `npm run dev`
+
+## 2. Set Up Project Structure [pending]
+### Dependencies: 11.1
+### Description: Create the folder structure for the application according to the PRD component structure.
+### Details:
+1. Create the following directory structure in the src folder:
+   - /components (for reusable UI components)
+   - /pages (for page components)
+   - /contexts (for React context providers)
+   - /hooks (for custom React hooks)
+   - /services (for API and Firebase service functions)
+   - /utils (for utility functions)
+   - /types (for TypeScript interfaces and types)
+   - /assets (for images, icons, etc.)
+2. Create placeholder files in each directory to maintain the structure in version control
+3. Set up the main App.tsx file with basic routing structure
+4. Create an index.ts file in each directory to facilitate clean imports
+
+## 3. Create Firebase Project and Enable Services [pending]
+### Dependencies: 11.1
+### Description: Set up a new Firebase project in the Firebase Console and enable required services.
+### Details:
+1. Go to the Firebase Console (https://console.firebase.google.com/)
+2. Click 'Add project' and follow the steps to create a new Firebase project
+3. Enter a project name and configure Google Analytics if desired
+4. Once the project is created, navigate to Authentication in the left sidebar
+5. Click 'Get started' and enable Email/Password authentication method
+6. Also enable Google authentication method and configure the OAuth consent screen
+7. Navigate to Firestore Database in the left sidebar
+8. Click 'Create database' and start in test mode for development
+9. Choose a database location closest to your target users
+10. Note down the project configuration details for the next step
+
+## 4. Configure Firebase in the Application [pending]
+### Dependencies: 11.1, 11.2, 11.3
+### Description: Create Firebase configuration files and set up environment variables for secure Firebase connection.
+### Details:
+1. Create a .env file in the root of your project
+2. Add the following environment variables with your Firebase project details:
+   ```
+   VITE_FIREBASE_API_KEY=your_api_key
+   VITE_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+   VITE_FIREBASE_PROJECT_ID=your_project_id
+   VITE_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
+   VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+   VITE_FIREBASE_APP_ID=your_app_id
+   ```
+3. Create src/utils/firebase.ts file with the initialization code provided in the task description
+4. Add .env to .gitignore to prevent exposing sensitive information
+5. Create a .env.example file with the variable names but without actual values for reference
+
+## 5. Set Up Basic Routing Structure [pending]
+### Dependencies: 11.1, 11.2, 11.4
+### Description: Implement the basic routing structure using react-router-dom to navigate between different pages of the application.
+### Details:
+1. Create basic page components in the pages directory:
+   - Home.tsx (landing page)
+   - Login.tsx (login page)
+   - Signup.tsx (registration page)
+   - Dashboard.tsx (main todo dashboard)
+   - Profile.tsx (user profile page)
+   - NotFound.tsx (404 page)
+2. Set up the router in App.tsx:
+   ```typescript
+   import { BrowserRouter, Routes, Route } from 'react-router-dom';
+   import Home from './pages/Home';
+   import Login from './pages/Login';
+   import Signup from './pages/Signup';
+   import Dashboard from './pages/Dashboard';
+   import Profile from './pages/Profile';
+   import NotFound from './pages/NotFound';
+   
+   function App() {
+     return (
+       <BrowserRouter>
+         <Routes>
+           <Route path="/" element={<Home />} />
+           <Route path="/login" element={<Login />} />
+           <Route path="/signup" element={<Signup />} />
+           <Route path="/dashboard" element={<Dashboard />} />
+           <Route path="/profile" element={<Profile />} />
+           <Route path="*" element={<NotFound />} />
+         </Routes>
+       </BrowserRouter>
+     );
+   }
+   
+   export default App;
+   ```
+3. Create a simple layout component with navigation in components/Layout.tsx
+4. Add placeholder content to each page component for testing
+

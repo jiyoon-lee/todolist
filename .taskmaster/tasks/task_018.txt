@@ -1,0 +1,111 @@
+# Task ID: 18
+# Title: Loading States and Error Handling
+# Status: pending
+# Dependencies: 11, 12, 13
+# Priority: medium
+# Description: Implement loading spinners, error messages, and toast notifications for better user experience
+# Details:
+1. Create reusable LoadingSpinner component:
+```typescript
+const LoadingSpinner: React.FC<{ size?: 'small' | 'medium' | 'large' }> = ({ size = 'medium' }) => {
+  const sizeClasses = {
+    small: 'w-4 h-4',
+    medium: 'w-8 h-8',
+    large: 'w-12 h-12'
+  };
+  
+  return (
+    <div className="flex justify-center items-center">
+      <div className={`${sizeClasses[size]} border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin`}></div>
+    </div>
+  );
+};
+```
+
+2. Create Toast notification system:
+```typescript
+type ToastType = 'success' | 'error' | 'info';
+
+interface Toast {
+  id: string;
+  message: string;
+  type: ToastType;
+}
+
+interface ToastContextType {
+  toasts: Toast[];
+  showToast: (message: string, type: ToastType) => void;
+  hideToast: (id: string) => void;
+}
+
+const ToastContext = createContext<ToastContextType | undefined>(undefined);
+
+export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [toasts, setToasts] = useState<Toast[]>([]);
+  
+  const showToast = (message: string, type: ToastType) => {
+    const id = Date.now().toString();
+    setToasts(prev => [...prev, { id, message, type }]);
+    
+    // Auto-dismiss after 5 seconds
+    setTimeout(() => {
+      hideToast(id);
+    }, 5000);
+  };
+  
+  const hideToast = (id: string) => {
+    setToasts(prev => prev.filter(toast => toast.id !== id));
+  };
+  
+  return (
+    <ToastContext.Provider value={{ toasts, showToast, hideToast }}>
+      {children}
+      <ToastContainer />
+    </ToastContext.Provider>
+  );
+};
+
+const ToastContainer: React.FC = () => {
+  const { toasts, hideToast } = useContext(ToastContext)!;
+  
+  return (
+    <div className="fixed bottom-4 right-4 z-50 space-y-2">
+      {toasts.map(toast => (
+        <div 
+          key={toast.id}
+          className={`p-3 rounded-lg shadow-lg flex justify-between items-center ${getToastColorClass(toast.type)}`}
+        >
+          <span>{toast.message}</span>
+          <button onClick={() => hideToast(toast.id)} className="ml-3">
+            &times;
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const getToastColorClass = (type: ToastType) => {
+  switch (type) {
+    case 'success': return 'bg-green-100 text-green-800';
+    case 'error': return 'bg-red-100 text-red-800';
+    case 'info': return 'bg-blue-100 text-blue-800';
+  }
+};
+```
+
+3. Create ErrorBoundary component for catching React errors
+4. Add loading states to all async operations
+5. Implement error handling in API calls
+6. Add empty states for lists with no data
+7. Create skeleton loaders for content that's loading
+
+# Test Strategy:
+1. Test loading spinner displays during async operations
+2. Test toast notifications for success and error states
+3. Verify error messages display when operations fail
+4. Test auto-dismissal of toast notifications
+5. Verify empty states display correctly
+6. Test error boundary catches rendering errors
+7. Verify loading states are accessible (aria attributes)
+8. Test skeleton loaders during initial data fetch

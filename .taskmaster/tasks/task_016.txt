@@ -1,0 +1,141 @@
+# Task ID: 16
+# Title: Filtering, Sorting, and Search Functionality
+# Status: pending
+# Dependencies: 15
+# Priority: medium
+# Description: Implement filtering by status and priority, sorting options, and keyword search for Todo items
+# Details:
+1. Create TodoFilter component with filter options:
+```typescript
+const TodoFilter: React.FC = () => {
+  const { filters, setFilters, sortOption, setSortOption } = useTodos();
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  const handleStatusChange = (status: 'all' | 'active' | 'completed') => {
+    setFilters(prev => ({ ...prev, status }));
+  };
+  
+  const handlePriorityChange = (priority: 'all' | 'high' | 'medium' | 'low') => {
+    setFilters(prev => ({ ...prev, priority }));
+  };
+  
+  const handleDueDateChange = (dueDate: 'all' | 'today' | 'week' | 'month') => {
+    setFilters(prev => ({ ...prev, dueDate }));
+  };
+  
+  const handleSortChange = (sort: 'createdAt' | 'dueDate' | 'priority') => {
+    setSortOption(sort);
+  };
+  
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setFilters(prev => ({ ...prev, searchTerm }));
+  };
+  
+  return (
+    <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+      {/* Filter UI implementation */}
+    </div>
+  );
+};
+```
+
+2. Enhance useTodos hook with filtering logic:
+```typescript
+const useTodos = () => {
+  const { currentUser } = useAuth();
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
+  const [filters, setFilters] = useState({
+    status: 'all',
+    priority: 'all',
+    dueDate: 'all',
+    searchTerm: ''
+  });
+  const [sortOption, setSortOption] = useState<'createdAt' | 'dueDate' | 'priority'>('createdAt');
+  
+  // Fetch todos from Firestore
+  
+  // Apply filters and sorting
+  useEffect(() => {
+    let result = [...todos];
+    
+    // Apply status filter
+    if (filters.status === 'active') {
+      result = result.filter(todo => !todo.completed);
+    } else if (filters.status === 'completed') {
+      result = result.filter(todo => todo.completed);
+    }
+    
+    // Apply priority filter
+    if (filters.priority !== 'all') {
+      result = result.filter(todo => todo.priority === filters.priority);
+    }
+    
+    // Apply due date filter
+    if (filters.dueDate !== 'all') {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      if (filters.dueDate === 'today') {
+        result = result.filter(todo => {
+          if (!todo.dueDate) return false;
+          const dueDate = todo.dueDate.toDate();
+          dueDate.setHours(0, 0, 0, 0);
+          return dueDate.getTime() === today.getTime();
+        });
+      } else if (filters.dueDate === 'week') {
+        // Filter for this week
+      } else if (filters.dueDate === 'month') {
+        // Filter for this month
+      }
+    }
+    
+    // Apply search
+    if (filters.searchTerm) {
+      const term = filters.searchTerm.toLowerCase();
+      result = result.filter(todo => 
+        todo.title.toLowerCase().includes(term) || 
+        (todo.description && todo.description.toLowerCase().includes(term))
+      );
+    }
+    
+    // Apply sorting
+    result.sort((a, b) => {
+      if (sortOption === 'dueDate') {
+        // Sort by due date
+      } else if (sortOption === 'priority') {
+        // Sort by priority
+      } else {
+        // Sort by created date (default)
+      }
+    });
+    
+    setFilteredTodos(result);
+  }, [todos, filters, sortOption]);
+  
+  return {
+    todos: filteredTodos,
+    filters,
+    setFilters,
+    sortOption,
+    setSortOption,
+    // CRUD operations
+  };
+};
+```
+
+3. Implement search input with debounce
+4. Create filter buttons/dropdowns for status, priority, and due date
+5. Add sorting options (created date, due date, priority)
+6. Style filter components with Tailwind CSS
+
+# Test Strategy:
+1. Test filtering todos by completion status
+2. Test filtering todos by priority
+3. Test filtering todos by due date (today, this week, this month)
+4. Test searching todos by keyword
+5. Test sorting todos by different criteria
+6. Verify filters can be combined
+7. Test filter reset functionality
+8. Verify UI updates correctly when filters change

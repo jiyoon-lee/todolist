@@ -1,0 +1,723 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 11,
+        "title": "Project Setup and Firebase Configuration",
+        "description": "Initialize React project with TypeScript and configure Firebase services",
+        "details": "1. Create a new React project using Vite with TypeScript template\n2. Install required dependencies (firebase, react-router-dom, tailwind CSS)\n3. Set up project structure according to the PRD component structure\n4. Create Firebase project in Firebase Console\n5. Enable Authentication (Email/Password and Google) and Firestore services\n6. Create firebase.ts utility file with initialization code:\n```typescript\nimport { initializeApp } from 'firebase/app';\nimport { getAuth } from 'firebase/auth';\nimport { getFirestore } from 'firebase/firestore';\n\nconst firebaseConfig = {\n  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,\n  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,\n  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,\n  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,\n  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,\n  appId: import.meta.env.VITE_FIREBASE_APP_ID\n};\n\nconst app = initializeApp(firebaseConfig);\nexport const auth = getAuth(app);\nexport const db = getFirestore(app);\n```\n7. Create .env file for Firebase configuration keys\n8. Set up basic routing structure with react-router-dom",
+        "testStrategy": "1. Verify project builds successfully without errors\n2. Confirm Firebase initialization works by checking console for errors\n3. Test connection to Firebase services with a simple read/write operation\n4. Validate environment variables are properly loaded\n5. Ensure project structure matches the PRD specifications",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Initialize React Project with TypeScript and Dependencies",
+            "description": "Create a new React project using Vite with TypeScript template and install all required dependencies for the application.",
+            "dependencies": [],
+            "details": "1. Install Node.js and npm if not already installed\n2. Run `npm create vite@latest my-todo-app --template react-ts` to create a new React project with TypeScript\n3. Navigate to the project directory: `cd my-todo-app`\n4. Install Firebase: `npm install firebase`\n5. Install React Router: `npm install react-router-dom`\n6. Install Tailwind CSS: `npm install -D tailwindcss postcss autoprefixer`\n7. Initialize Tailwind CSS: `npx tailwindcss init -p`\n8. Configure Tailwind CSS by updating the tailwind.config.js file to include your template paths\n9. Add Tailwind directives to your CSS file\n10. Test the installation by running `npm run dev`",
+            "status": "pending",
+            "testStrategy": "Verify the project builds successfully without errors by running `npm run dev` and checking that the development server starts without errors."
+          },
+          {
+            "id": 2,
+            "title": "Set Up Project Structure",
+            "description": "Create the folder structure for the application according to the PRD component structure.",
+            "dependencies": [
+              "11.1"
+            ],
+            "details": "1. Create the following directory structure in the src folder:\n   - /components (for reusable UI components)\n   - /pages (for page components)\n   - /contexts (for React context providers)\n   - /hooks (for custom React hooks)\n   - /services (for API and Firebase service functions)\n   - /utils (for utility functions)\n   - /types (for TypeScript interfaces and types)\n   - /assets (for images, icons, etc.)\n2. Create placeholder files in each directory to maintain the structure in version control\n3. Set up the main App.tsx file with basic routing structure\n4. Create an index.ts file in each directory to facilitate clean imports",
+            "status": "pending",
+            "testStrategy": "Verify all directories are created correctly and the application structure matches the PRD requirements."
+          },
+          {
+            "id": 3,
+            "title": "Create Firebase Project and Enable Services",
+            "description": "Set up a new Firebase project in the Firebase Console and enable required services.",
+            "dependencies": [
+              "11.1"
+            ],
+            "details": "1. Go to the Firebase Console (https://console.firebase.google.com/)\n2. Click 'Add project' and follow the steps to create a new Firebase project\n3. Enter a project name and configure Google Analytics if desired\n4. Once the project is created, navigate to Authentication in the left sidebar\n5. Click 'Get started' and enable Email/Password authentication method\n6. Also enable Google authentication method and configure the OAuth consent screen\n7. Navigate to Firestore Database in the left sidebar\n8. Click 'Create database' and start in test mode for development\n9. Choose a database location closest to your target users\n10. Note down the project configuration details for the next step",
+            "status": "pending",
+            "testStrategy": "Verify that Authentication and Firestore services are enabled in the Firebase Console. Check that test mode is enabled for Firestore during development."
+          },
+          {
+            "id": 4,
+            "title": "Configure Firebase in the Application",
+            "description": "Create Firebase configuration files and set up environment variables for secure Firebase connection.",
+            "dependencies": [
+              "11.1",
+              "11.2",
+              "11.3"
+            ],
+            "details": "1. Create a .env file in the root of your project\n2. Add the following environment variables with your Firebase project details:\n   ```\n   VITE_FIREBASE_API_KEY=your_api_key\n   VITE_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com\n   VITE_FIREBASE_PROJECT_ID=your_project_id\n   VITE_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com\n   VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id\n   VITE_FIREBASE_APP_ID=your_app_id\n   ```\n3. Create src/utils/firebase.ts file with the initialization code provided in the task description\n4. Add .env to .gitignore to prevent exposing sensitive information\n5. Create a .env.example file with the variable names but without actual values for reference",
+            "status": "pending",
+            "testStrategy": "Test Firebase connection by adding a simple console.log statement after initialization and checking for any errors in the browser console."
+          },
+          {
+            "id": 5,
+            "title": "Set Up Basic Routing Structure",
+            "description": "Implement the basic routing structure using react-router-dom to navigate between different pages of the application.",
+            "dependencies": [
+              "11.1",
+              "11.2",
+              "11.4"
+            ],
+            "details": "1. Create basic page components in the pages directory:\n   - Home.tsx (landing page)\n   - Login.tsx (login page)\n   - Signup.tsx (registration page)\n   - Dashboard.tsx (main todo dashboard)\n   - Profile.tsx (user profile page)\n   - NotFound.tsx (404 page)\n2. Set up the router in App.tsx:\n   ```typescript\n   import { BrowserRouter, Routes, Route } from 'react-router-dom';\n   import Home from './pages/Home';\n   import Login from './pages/Login';\n   import Signup from './pages/Signup';\n   import Dashboard from './pages/Dashboard';\n   import Profile from './pages/Profile';\n   import NotFound from './pages/NotFound';\n   \n   function App() {\n     return (\n       <BrowserRouter>\n         <Routes>\n           <Route path=\"/\" element={<Home />} />\n           <Route path=\"/login\" element={<Login />} />\n           <Route path=\"/signup\" element={<Signup />} />\n           <Route path=\"/dashboard\" element={<Dashboard />} />\n           <Route path=\"/profile\" element={<Profile />} />\n           <Route path=\"*\" element={<NotFound />} />\n         </Routes>\n       </BrowserRouter>\n     );\n   }\n   \n   export default App;\n   ```\n3. Create a simple layout component with navigation in components/Layout.tsx\n4. Add placeholder content to each page component for testing",
+            "status": "pending",
+            "testStrategy": "Test navigation by clicking through different routes and verifying that the correct components are rendered. Check that the URL changes appropriately and that the browser's back/forward buttons work correctly."
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "title": "Authentication System Implementation",
+        "description": "Implement user authentication with Firebase Authentication including login, signup, and profile management",
+        "details": "1. Create AuthContext for managing authentication state:\n```typescript\ninterface AuthContextType {\n  currentUser: User | null;\n  loading: boolean;\n  login: (email: string, password: string) => Promise<UserCredential>;\n  googleLogin: () => Promise<UserCredential>;\n  signup: (email: string, password: string) => Promise<UserCredential>;\n  logout: () => Promise<void>;\n}\n```\n2. Implement auth service functions in auth.ts:\n```typescript\nimport { auth, db } from '../utils/firebase';\nimport { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';\nimport { doc, setDoc, serverTimestamp } from 'firebase/firestore';\n\nexport const signupWithEmail = async (email: string, password: string) => {\n  const userCredential = await createUserWithEmailAndPassword(auth, email, password);\n  await createUserProfile(userCredential.user);\n  return userCredential;\n};\n\nexport const loginWithEmail = (email: string, password: string) => {\n  return signInWithEmailAndPassword(auth, email, password);\n};\n\nexport const loginWithGoogle = async () => {\n  const provider = new GoogleAuthProvider();\n  const userCredential = await signInWithPopup(auth, provider);\n  await createUserProfile(userCredential.user);\n  return userCredential;\n};\n\nexport const logoutUser = () => signOut(auth);\n\nconst createUserProfile = async (user: User) => {\n  const userRef = doc(db, 'users', user.uid);\n  await setDoc(userRef, {\n    uid: user.uid,\n    email: user.email,\n    displayName: user.displayName || user.email?.split('@')[0],\n    photoURL: user.photoURL,\n    createdAt: serverTimestamp()\n  }, { merge: true });\n};\n```\n3. Create LoginForm and SignupForm components\n4. Implement protected routes for authenticated users\n5. Add persistence for user login state\n6. Create Header component with user profile display and logout button",
+        "testStrategy": "1. Test user registration with email/password\n2. Test login with email/password\n3. Test Google authentication flow\n4. Verify user profile is created in Firestore after signup\n5. Test logout functionality\n6. Verify protected routes redirect unauthenticated users\n7. Test error handling for invalid credentials\n8. Verify login persistence across page refreshes",
+        "priority": "high",
+        "dependencies": [
+          11
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create AuthContext Provider",
+            "description": "Implement the AuthContext provider component that will manage authentication state and provide authentication methods to the entire application.",
+            "dependencies": [],
+            "details": "1. Create a new file `src/contexts/AuthContext.tsx`\n2. Import necessary Firebase auth types and functions\n3. Implement the AuthContext with the interface provided in the task description\n4. Create the AuthProvider component that:\n   - Tracks current user state\n   - Handles loading state during auth operations\n   - Provides login, signup, Google login, and logout functions\n   - Uses Firebase onAuthStateChanged to monitor authentication state\n5. Export both the context and the provider\n6. Implement a custom hook useAuth() for easy context consumption",
+            "status": "pending",
+            "testStrategy": "1. Test that the context provides the correct initial state\n2. Verify that the auth state updates correctly when a user logs in/out\n3. Test that the loading state works correctly during auth operations\n4. Mock Firebase auth functions to test context methods"
+          },
+          {
+            "id": 2,
+            "title": "Implement Authentication Service Functions",
+            "description": "Create the authentication service module with functions for email/password signup, email/password login, Google login, and user logout.",
+            "dependencies": [
+              "12.1"
+            ],
+            "details": "1. Create a new file `src/services/auth.ts`\n2. Implement the authentication functions as outlined in the task description:\n   - signupWithEmail: Register new users with email/password and create their profile\n   - loginWithEmail: Authenticate existing users with email/password\n   - loginWithGoogle: Authenticate users with Google provider\n   - logoutUser: Sign out the current user\n   - createUserProfile: Helper function to store user data in Firestore\n3. Ensure proper error handling for all authentication operations\n4. Add TypeScript types for all function parameters and return values",
+            "status": "pending",
+            "testStrategy": "1. Test successful user registration with valid credentials\n2. Test login with valid credentials\n3. Test error handling with invalid credentials\n4. Verify Google authentication flow works correctly\n5. Confirm user profile is created in Firestore after signup\n6. Test logout functionality"
+          },
+          {
+            "id": 3,
+            "title": "Create Login and Signup Form Components",
+            "description": "Develop form components for user login and registration with validation and error handling.",
+            "dependencies": [
+              "12.1",
+              "12.2"
+            ],
+            "details": "1. Create `src/components/auth/LoginForm.tsx`:\n   - Form fields for email and password\n   - Submit handler that calls login function from AuthContext\n   - Form validation for email format and password requirements\n   - Error display for authentication failures\n   - Google login button\n   - Link to signup page\n\n2. Create `src/components/auth/SignupForm.tsx`:\n   - Form fields for email, password, and password confirmation\n   - Submit handler that calls signup function from AuthContext\n   - Validation for matching passwords and format requirements\n   - Error display for registration failures\n   - Google signup button\n   - Link to login page\n\n3. Style both components for a consistent user experience",
+            "status": "pending",
+            "testStrategy": "1. Test form validation for both components\n2. Verify error messages display correctly for invalid inputs\n3. Test form submission with valid and invalid data\n4. Verify navigation between login and signup forms\n5. Test Google authentication button functionality"
+          },
+          {
+            "id": 4,
+            "title": "Implement Protected Routes",
+            "description": "Create a route protection system that restricts access to authenticated routes and redirects unauthenticated users to the login page.",
+            "dependencies": [
+              "12.1",
+              "12.2",
+              "12.3"
+            ],
+            "details": "1. Create `src/components/auth/ProtectedRoute.tsx` component:\n   - Use the AuthContext to check if a user is authenticated\n   - Redirect to login page if not authenticated\n   - Show loading state while authentication status is being determined\n   - Render the protected component if authenticated\n\n2. Update the application's routing configuration to use the ProtectedRoute component for routes that require authentication\n\n3. Implement a redirect system that returns users to their intended destination after login\n\n4. Add persistence for user login state using Firebase's persistence options",
+            "status": "pending",
+            "testStrategy": "1. Test that protected routes redirect unauthenticated users to login\n2. Verify authenticated users can access protected routes\n3. Test that the loading state displays correctly while auth state is being determined\n4. Verify the redirect system works after successful login\n5. Test persistence across page reloads"
+          },
+          {
+            "id": 5,
+            "title": "Create User Profile Management Components",
+            "description": "Implement components for displaying and editing user profile information in the application header and profile page.",
+            "dependencies": [
+              "12.1",
+              "12.2",
+              "12.4"
+            ],
+            "details": "1. Create `src/components/layout/Header.tsx`:\n   - Display user avatar and name when authenticated\n   - Show login/signup buttons when not authenticated\n   - Include a dropdown menu with profile and logout options\n\n2. Create `src/components/profile/ProfilePage.tsx`:\n   - Display user information (name, email, photo)\n   - Allow users to update their profile information\n   - Implement photo upload functionality using Firebase Storage\n   - Add form validation for profile updates\n\n3. Update the AuthContext to include profile update functionality\n\n4. Ensure all components respond appropriately to authentication state changes",
+            "status": "pending",
+            "testStrategy": "1. Test header displays correct information based on auth state\n2. Verify profile page shows accurate user information\n3. Test profile update functionality\n4. Verify image upload and storage in Firebase\n5. Test that UI updates correctly after profile changes\n6. Verify logout functionality from the header component"
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "title": "Todo Data Model and Firestore Integration",
+        "description": "Implement Firestore data models and CRUD operations for Todo items",
+        "details": "1. Create Todo interface according to PRD specifications:\n```typescript\ninterface Todo {\n  id: string;\n  userId: string;\n  title: string;\n  description?: string;\n  completed: boolean;\n  priority: 'high' | 'medium' | 'low';\n  dueDate?: Timestamp;\n  createdAt: Timestamp;\n  updatedAt: Timestamp;\n}\n```\n2. Implement Firestore service functions in firestore.ts:\n```typescript\nimport { db } from '../utils/firebase';\nimport { collection, addDoc, doc, updateDoc, deleteDoc, query, where, orderBy, serverTimestamp, Timestamp } from 'firebase/firestore';\nimport { Todo } from '../types';\n\nconst TODOS_COLLECTION = 'todos';\n\nexport const addTodo = async (userId: string, todoData: Omit<Todo, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => {\n  const todoRef = collection(db, TODOS_COLLECTION);\n  return addDoc(todoRef, {\n    ...todoData,\n    userId,\n    completed: false,\n    createdAt: serverTimestamp(),\n    updatedAt: serverTimestamp()\n  });\n};\n\nexport const updateTodo = async (todoId: string, updates: Partial<Omit<Todo, 'id' | 'userId' | 'createdAt'>>) => {\n  const todoRef = doc(db, TODOS_COLLECTION, todoId);\n  return updateDoc(todoRef, {\n    ...updates,\n    updatedAt: serverTimestamp()\n  });\n};\n\nexport const deleteTodo = (todoId: string) => {\n  const todoRef = doc(db, TODOS_COLLECTION, todoId);\n  return deleteDoc(todoRef);\n};\n\nexport const getUserTodosQuery = (userId: string) => {\n  return query(\n    collection(db, TODOS_COLLECTION),\n    where('userId', '==', userId),\n    orderBy('createdAt', 'desc')\n  );\n};\n```\n3. Create TodoContext for managing Todo state\n4. Implement useTodos custom hook for accessing Todo operations\n5. Set up Firestore security rules according to PRD",
+        "testStrategy": "1. Test creating a new Todo item in Firestore\n2. Test updating Todo properties (title, description, priority, etc.)\n3. Test toggling Todo completion status\n4. Test deleting a Todo item\n5. Verify real-time updates are reflected in the UI\n6. Test Firestore security rules to ensure users can only access their own Todos\n7. Verify data structure matches the PRD specifications",
+        "priority": "high",
+        "dependencies": [
+          11,
+          12
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Todo Interface and Type Definitions",
+            "description": "Define the Todo interface and related type definitions according to PRD specifications in a dedicated types file.",
+            "dependencies": [],
+            "details": "Create a new file at src/types/index.ts that exports the Todo interface and any related types. Ensure the interface includes all required fields (id, userId, title, description, completed, priority, dueDate, createdAt, updatedAt) with proper typing. Include type definitions for priority values ('high', 'medium', 'low') as a union type. Export the interface so it can be imported by other modules.",
+            "status": "pending",
+            "testStrategy": "Verify type definitions by importing them in a test file and checking TypeScript compilation with sample data objects."
+          },
+          {
+            "id": 2,
+            "title": "Implement Firestore CRUD Service Functions",
+            "description": "Create a dedicated service file with functions for creating, reading, updating, and deleting Todo items in Firestore.",
+            "dependencies": [
+              "13.1"
+            ],
+            "details": "Create src/services/firestore.ts file implementing the addTodo, updateTodo, deleteTodo, and getUserTodosQuery functions. Ensure proper error handling and type safety using the Todo interface. Implement serverTimestamp() for createdAt and updatedAt fields. Set up the TODOS_COLLECTION constant and ensure all functions use proper Firestore references and queries.",
+            "status": "pending",
+            "testStrategy": "Test each CRUD function with mock data to verify they correctly interact with Firestore. Use Firebase emulator for testing to avoid affecting production data."
+          },
+          {
+            "id": 3,
+            "title": "Create TodoContext for State Management",
+            "description": "Implement a React Context for managing Todo state and providing access to Todo operations throughout the application.",
+            "dependencies": [
+              "13.2"
+            ],
+            "details": "Create src/contexts/TodoContext.tsx that defines a TodoContextType interface with todos array, loading state, error state, and CRUD operation methods. Implement the TodoProvider component that uses the Firestore service functions and manages the todos state. Use useEffect to set up a real-time listener for the user's todos using onSnapshot. Provide a useContext hook for consuming components to access the todo state and operations.",
+            "status": "pending",
+            "testStrategy": "Test the TodoContext with a mock component that consumes it, verifying that state updates correctly when CRUD operations are performed and that real-time updates are reflected."
+          },
+          {
+            "id": 4,
+            "title": "Implement useTodos Custom Hook",
+            "description": "Create a custom hook that provides a simplified interface for components to interact with the Todo data and operations.",
+            "dependencies": [
+              "13.3"
+            ],
+            "details": "Create src/hooks/useTodos.ts that exports a useTodos hook. This hook should use the TodoContext and provide a clean API for components to access todos and perform operations like addTodo, updateTodo, toggleTodoCompletion, deleteTodo, etc. Include proper error handling and loading states. The hook should handle the transformation of Firestore documents to Todo objects with proper typing.",
+            "status": "pending",
+            "testStrategy": "Create test cases for the useTodos hook using React Testing Library, verifying that it correctly provides todo data and that operations trigger the expected context methods."
+          },
+          {
+            "id": 5,
+            "title": "Configure Firestore Security Rules",
+            "description": "Set up Firestore security rules to ensure users can only access and modify their own Todo items.",
+            "dependencies": [
+              "13.2"
+            ],
+            "details": "Create or update firestore.rules file with security rules that restrict access to Todo documents based on user authentication. Rules should ensure that: 1) Users can only read their own todos, 2) Users can only create todos with their own userId, 3) Users can only update/delete their own todos, 4) Required fields are present when creating todos, 5) Field types are validated. Deploy these rules to Firebase using the Firebase CLI.",
+            "status": "pending",
+            "testStrategy": "Test security rules using Firebase Rules Simulator or unit tests that attempt to perform unauthorized operations, verifying they are rejected while authorized operations succeed."
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "title": "Todo Form and Creation UI",
+        "description": "Implement UI components for creating new Todo items with title, description, due date, and priority",
+        "details": "1. Create TodoForm component with the following fields:\n   - Title input (required)\n   - Description textarea (optional)\n   - Due date picker (optional)\n   - Priority selector (high/medium/low)\n   - Submit button\n\n2. Implement form validation:\n```typescript\nconst TodoForm: React.FC = () => {\n  const { addTodo } = useTodos();\n  const { currentUser } = useAuth();\n  const [title, setTitle] = useState('');\n  const [description, setDescription] = useState('');\n  const [dueDate, setDueDate] = useState<Date | null>(null);\n  const [priority, setPriority] = useState<'high' | 'medium' | 'low'>('medium');\n  const [error, setError] = useState('');\n  const [loading, setLoading] = useState(false);\n\n  const handleSubmit = async (e: React.FormEvent) => {\n    e.preventDefault();\n    if (!title.trim()) {\n      setError('Title is required');\n      return;\n    }\n    if (!currentUser) return;\n    \n    setLoading(true);\n    try {\n      await addTodo(currentUser.uid, {\n        title,\n        description: description || undefined,\n        dueDate: dueDate ? Timestamp.fromDate(dueDate) : undefined,\n        priority,\n        completed: false\n      });\n      // Reset form\n      setTitle('');\n      setDescription('');\n      setDueDate(null);\n      setPriority('medium');\n      setError('');\n    } catch (err) {\n      setError('Failed to create todo');\n      console.error(err);\n    } finally {\n      setLoading(false);\n    }\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      {/* Form fields implementation */}\n    </form>\n  );\n};\n```\n3. Style the form using Tailwind CSS\n4. Add loading state and error handling\n5. Implement responsive design for mobile and desktop",
+        "testStrategy": "1. Test form validation (empty title, valid inputs)\n2. Test creating Todo with minimum required fields\n3. Test creating Todo with all fields\n4. Verify form resets after successful submission\n5. Test error handling when submission fails\n6. Verify responsive design on different screen sizes\n7. Test keyboard navigation and accessibility",
+        "priority": "high",
+        "dependencies": [
+          13
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement form input fields and state management",
+            "description": "Create the TodoForm component with all required input fields and set up state management for form data",
+            "dependencies": [],
+            "details": "Create a new TodoForm.tsx component with the following: 1) Import necessary hooks and components. 2) Set up state variables for title, description, dueDate, priority, error, and loading. 3) Implement input fields for title (text input), description (textarea), due date (date picker), and priority (dropdown with high/medium/low options). 4) Connect each input field to its corresponding state variable using onChange handlers. 5) Use Tailwind CSS for basic styling of form elements.",
+            "status": "pending",
+            "testStrategy": "Test that each input field correctly updates its corresponding state variable. Verify initial state values are set correctly."
+          },
+          {
+            "id": 2,
+            "title": "Implement form validation and submission logic",
+            "description": "Add form validation to ensure required fields are filled and implement the form submission handler",
+            "dependencies": [
+              "14.1"
+            ],
+            "details": "1) Create a handleSubmit function that prevents default form submission. 2) Validate that the title field is not empty, showing an error message if it is. 3) Check for currentUser existence before submission. 4) Implement the try/catch block to handle the addTodo operation, including setting loading state. 5) Reset form fields after successful submission. 6) Add proper error handling to display user-friendly error messages.",
+            "status": "pending",
+            "testStrategy": "Test form validation by submitting with empty title. Test successful submission with valid data. Test error handling when addTodo fails."
+          },
+          {
+            "id": 3,
+            "title": "Style the form with Tailwind CSS",
+            "description": "Apply Tailwind CSS styling to make the form visually appealing and consistent with the application design",
+            "dependencies": [
+              "14.1"
+            ],
+            "details": "1) Style the form container with appropriate padding, margin, and background. 2) Style input fields with consistent height, padding, border-radius, and focus states. 3) Style the submit button with appropriate colors, hover effects, and disabled state. 4) Add proper spacing between form elements. 5) Style error messages to be clearly visible. 6) Ensure form elements have appropriate width and alignment.",
+            "status": "pending",
+            "testStrategy": "Verify styling is consistent across different browsers. Check that focus states and hover effects work as expected. Ensure error messages are clearly visible."
+          },
+          {
+            "id": 4,
+            "title": "Implement loading state and error handling UI",
+            "description": "Add visual indicators for loading state and error messages to improve user experience",
+            "dependencies": [
+              "14.2",
+              "14.3"
+            ],
+            "details": "1) Create a loading spinner or disabled state for the submit button when the form is submitting. 2) Implement an error message component that displays validation errors or submission failures. 3) Add visual feedback for successful submission (e.g., a success message or toast notification). 4) Disable the form inputs during submission to prevent multiple submissions. 5) Ensure error messages are cleared when the user starts typing again.",
+            "status": "pending",
+            "testStrategy": "Test that loading state is correctly displayed during submission. Verify error messages appear and disappear appropriately. Test that form inputs are disabled during submission."
+          },
+          {
+            "id": 5,
+            "title": "Implement responsive design for mobile and desktop",
+            "description": "Ensure the form displays correctly on different screen sizes and devices",
+            "dependencies": [
+              "14.3"
+            ],
+            "details": "1) Use Tailwind's responsive utility classes to adjust layout for different screen sizes. 2) Implement a single-column layout for mobile devices and an optional multi-column layout for larger screens. 3) Adjust input field sizes and padding for touch-friendly interaction on mobile. 4) Ensure the date picker is usable on mobile devices. 5) Test and adjust font sizes for readability across devices. 6) Ensure the submit button is appropriately sized for touch targets on mobile.",
+            "status": "pending",
+            "testStrategy": "Test the form on multiple screen sizes (mobile, tablet, desktop). Verify that all inputs are easily accessible and usable on touch devices. Check that the layout adjusts appropriately when the screen size changes."
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "title": "Todo List and Item Components",
+        "description": "Implement UI components for displaying, editing, and deleting Todo items",
+        "details": "1. Create TodoList component to display all todos:\n```typescript\nconst TodoList: React.FC = () => {\n  const { todos, loading, error } = useTodos();\n  \n  if (loading) return <LoadingSpinner />;\n  if (error) return <ErrorMessage message={error} />;\n  if (todos.length === 0) return <EmptyState message=\"No todos yet. Create your first todo!\" />;\n  \n  return (\n    <div className=\"space-y-4\">\n      {todos.map(todo => (\n        <TodoItem key={todo.id} todo={todo} />\n      ))}\n    </div>\n  );\n};\n```\n\n2. Create TodoItem component with display and edit modes:\n```typescript\nconst TodoItem: React.FC<{ todo: Todo }> = ({ todo }) => {\n  const { updateTodo, deleteTodo } = useTodos();\n  const [isEditing, setIsEditing] = useState(false);\n  const [title, setTitle] = useState(todo.title);\n  const [description, setDescription] = useState(todo.description || '');\n  const [dueDate, setDueDate] = useState<Date | null>(todo.dueDate ? todo.dueDate.toDate() : null);\n  const [priority, setPriority] = useState(todo.priority);\n  \n  const handleToggleComplete = () => {\n    updateTodo(todo.id, { completed: !todo.completed });\n  };\n  \n  const handleSave = async () => {\n    if (!title.trim()) return;\n    \n    await updateTodo(todo.id, {\n      title,\n      description: description || undefined,\n      dueDate: dueDate ? Timestamp.fromDate(dueDate) : undefined,\n      priority\n    });\n    setIsEditing(false);\n  };\n  \n  const handleDelete = () => {\n    if (window.confirm('Are you sure you want to delete this todo?')) {\n      deleteTodo(todo.id);\n    }\n  };\n  \n  return (\n    <div className={`p-4 border rounded-lg ${todo.completed ? 'bg-gray-100' : 'bg-white'}`}>\n      {isEditing ? (\n        /* Edit mode UI */\n      ) : (\n        /* Display mode UI */\n      )}\n    </div>\n  );\n};\n```\n\n3. Implement priority indicators with color coding\n4. Add due date display with formatting\n5. Create edit/delete buttons with confirmation\n6. Implement checkbox for toggling completion status\n7. Style components with Tailwind CSS for responsive design",
+        "testStrategy": "1. Test rendering a list of todos\n2. Test toggling todo completion status\n3. Test editing todo details\n4. Test deleting a todo with confirmation\n5. Verify priority indicators display correctly\n6. Test due date formatting\n7. Verify empty state displays when no todos exist\n8. Test responsive design on different screen sizes",
+        "priority": "high",
+        "dependencies": [
+          13,
+          14
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement TodoList Component with Loading and Empty States",
+            "description": "Create the TodoList component that displays all todos with proper loading, error, and empty states handling.",
+            "dependencies": [],
+            "details": "Implement the TodoList component as shown in the template code. Ensure it properly handles loading state with a LoadingSpinner component, error state with an ErrorMessage component, and empty state with an EmptyState component. The component should map through the todos array and render a TodoItem component for each todo. Use the useTodos hook to fetch todos data. Style the container with Tailwind CSS classes for spacing between items.",
+            "status": "pending",
+            "testStrategy": "Test rendering with different states: loading, error, empty list, and populated list. Verify that the appropriate components are rendered in each state. Test that the correct number of TodoItem components are rendered when todos are available."
+          },
+          {
+            "id": 2,
+            "title": "Create TodoItem Display Mode UI",
+            "description": "Implement the display mode UI for the TodoItem component showing todo details with proper styling and interaction elements.",
+            "dependencies": [
+              "15.1"
+            ],
+            "details": "Complete the display mode section of the TodoItem component. Include a checkbox for toggling completion status, the todo title with appropriate styling based on completion status, the description if available, formatted due date display, and priority indicator with color coding. Add edit and delete buttons with appropriate icons. Style the component using Tailwind CSS classes for responsive design, ensuring the layout works well on different screen sizes. Implement the handleToggleComplete and handleDelete functions.",
+            "status": "pending",
+            "testStrategy": "Test rendering a todo item with various property combinations (with/without description, with/without due date, different priorities, completed/incomplete). Verify the checkbox toggles completion status correctly. Test that delete button shows confirmation dialog and calls deleteTodo when confirmed."
+          },
+          {
+            "id": 3,
+            "title": "Implement TodoItem Edit Mode UI",
+            "description": "Create the edit mode UI for the TodoItem component with form inputs for modifying todo properties.",
+            "dependencies": [
+              "15.2"
+            ],
+            "details": "Complete the edit mode section of the TodoItem component. Include form inputs for title, description, due date (use a date picker component), and priority selection (dropdown or radio buttons). Add Save and Cancel buttons. Implement state management for the form fields using useState hooks. Style the form elements with Tailwind CSS for consistent appearance with the rest of the application. Implement the handleSave function to update the todo and exit edit mode, and add a cancel function to revert changes and exit edit mode.",
+            "status": "pending",
+            "testStrategy": "Test entering edit mode by clicking edit button. Verify form fields are populated with current todo values. Test saving changes updates the todo correctly. Test canceling changes reverts to original values. Test validation (e.g., empty title should not be allowed)."
+          },
+          {
+            "id": 4,
+            "title": "Implement Priority Indicators and Due Date Formatting",
+            "description": "Create visual priority indicators with color coding and implement proper date formatting for due dates.",
+            "dependencies": [
+              "15.2",
+              "15.3"
+            ],
+            "details": "Create a PriorityIndicator component that displays different colors based on priority level (e.g., red for high, yellow for medium, green for low). Implement a function to format due dates in a user-friendly way, showing relative time for upcoming dates (e.g., 'Tomorrow', 'In 3 days') and exact date for dates further in the future. Add visual indicators for overdue items. Ensure these components work in both display and edit modes of the TodoItem component. Use Tailwind CSS for styling the indicators.",
+            "status": "pending",
+            "testStrategy": "Test that priority indicators display the correct colors for each priority level. Test date formatting with various dates (today, tomorrow, next week, next month, past dates). Verify overdue items are visually distinct from upcoming items."
+          },
+          {
+            "id": 5,
+            "title": "Implement Edit/Delete Functionality with Confirmation",
+            "description": "Add edit and delete buttons with confirmation dialogs and implement the corresponding functionality.",
+            "dependencies": [
+              "15.2",
+              "15.3",
+              "15.4"
+            ],
+            "details": "Enhance the TodoItem component with proper edit and delete functionality. For editing, implement a toggle between display and edit modes. For deletion, implement a confirmation dialog using either the browser's built-in confirm() or a custom modal component. Ensure the UI provides clear feedback during these operations (e.g., disable buttons during API calls, show loading indicators). Implement proper error handling for failed operations. Use appropriate icons for edit and delete buttons and style them consistently with Tailwind CSS.",
+            "status": "pending",
+            "testStrategy": "Test the edit button toggles between display and edit modes. Test the delete confirmation dialog appears when delete is clicked. Verify canceling deletion keeps the todo. Test error handling by simulating API failures. Verify UI feedback during operations (loading states, disabled buttons)."
+          }
+        ]
+      },
+      {
+        "id": 16,
+        "title": "Filtering, Sorting, and Search Functionality",
+        "description": "Implement filtering by status and priority, sorting options, and keyword search for Todo items",
+        "details": "1. Create TodoFilter component with filter options:\n```typescript\nconst TodoFilter: React.FC = () => {\n  const { filters, setFilters, sortOption, setSortOption } = useTodos();\n  const [searchTerm, setSearchTerm] = useState('');\n  \n  const handleStatusChange = (status: 'all' | 'active' | 'completed') => {\n    setFilters(prev => ({ ...prev, status }));\n  };\n  \n  const handlePriorityChange = (priority: 'all' | 'high' | 'medium' | 'low') => {\n    setFilters(prev => ({ ...prev, priority }));\n  };\n  \n  const handleDueDateChange = (dueDate: 'all' | 'today' | 'week' | 'month') => {\n    setFilters(prev => ({ ...prev, dueDate }));\n  };\n  \n  const handleSortChange = (sort: 'createdAt' | 'dueDate' | 'priority') => {\n    setSortOption(sort);\n  };\n  \n  const handleSearch = (e: React.FormEvent) => {\n    e.preventDefault();\n    setFilters(prev => ({ ...prev, searchTerm }));\n  };\n  \n  return (\n    <div className=\"mb-6 p-4 bg-gray-50 rounded-lg\">\n      {/* Filter UI implementation */}\n    </div>\n  );\n};\n```\n\n2. Enhance useTodos hook with filtering logic:\n```typescript\nconst useTodos = () => {\n  const { currentUser } = useAuth();\n  const [todos, setTodos] = useState<Todo[]>([]);\n  const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);\n  const [filters, setFilters] = useState({\n    status: 'all',\n    priority: 'all',\n    dueDate: 'all',\n    searchTerm: ''\n  });\n  const [sortOption, setSortOption] = useState<'createdAt' | 'dueDate' | 'priority'>('createdAt');\n  \n  // Fetch todos from Firestore\n  \n  // Apply filters and sorting\n  useEffect(() => {\n    let result = [...todos];\n    \n    // Apply status filter\n    if (filters.status === 'active') {\n      result = result.filter(todo => !todo.completed);\n    } else if (filters.status === 'completed') {\n      result = result.filter(todo => todo.completed);\n    }\n    \n    // Apply priority filter\n    if (filters.priority !== 'all') {\n      result = result.filter(todo => todo.priority === filters.priority);\n    }\n    \n    // Apply due date filter\n    if (filters.dueDate !== 'all') {\n      const today = new Date();\n      today.setHours(0, 0, 0, 0);\n      \n      if (filters.dueDate === 'today') {\n        result = result.filter(todo => {\n          if (!todo.dueDate) return false;\n          const dueDate = todo.dueDate.toDate();\n          dueDate.setHours(0, 0, 0, 0);\n          return dueDate.getTime() === today.getTime();\n        });\n      } else if (filters.dueDate === 'week') {\n        // Filter for this week\n      } else if (filters.dueDate === 'month') {\n        // Filter for this month\n      }\n    }\n    \n    // Apply search\n    if (filters.searchTerm) {\n      const term = filters.searchTerm.toLowerCase();\n      result = result.filter(todo => \n        todo.title.toLowerCase().includes(term) || \n        (todo.description && todo.description.toLowerCase().includes(term))\n      );\n    }\n    \n    // Apply sorting\n    result.sort((a, b) => {\n      if (sortOption === 'dueDate') {\n        // Sort by due date\n      } else if (sortOption === 'priority') {\n        // Sort by priority\n      } else {\n        // Sort by created date (default)\n      }\n    });\n    \n    setFilteredTodos(result);\n  }, [todos, filters, sortOption]);\n  \n  return {\n    todos: filteredTodos,\n    filters,\n    setFilters,\n    sortOption,\n    setSortOption,\n    // CRUD operations\n  };\n};\n```\n\n3. Implement search input with debounce\n4. Create filter buttons/dropdowns for status, priority, and due date\n5. Add sorting options (created date, due date, priority)\n6. Style filter components with Tailwind CSS",
+        "testStrategy": "1. Test filtering todos by completion status\n2. Test filtering todos by priority\n3. Test filtering todos by due date (today, this week, this month)\n4. Test searching todos by keyword\n5. Test sorting todos by different criteria\n6. Verify filters can be combined\n7. Test filter reset functionality\n8. Verify UI updates correctly when filters change",
+        "priority": "medium",
+        "dependencies": [
+          15
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Status and Priority Filter UI Components",
+            "description": "Create the UI components for filtering todos by status (all/active/completed) and priority (all/high/medium/low) with appropriate styling using Tailwind CSS.",
+            "dependencies": [],
+            "details": "Create filter button groups for status and priority in the TodoFilter component. Each button should have active/inactive states with appropriate styling. Use radio button behavior where only one option can be selected at a time within each filter group. Implement the handleStatusChange and handlePriorityChange functions to update the filter state when a button is clicked. Style the components with Tailwind CSS classes for consistent appearance with the rest of the application.",
+            "status": "pending",
+            "testStrategy": "Test that clicking each filter button updates the filter state correctly. Verify that only one option can be selected at a time within each filter group. Test that the active button has the correct styling."
+          },
+          {
+            "id": 2,
+            "title": "Implement Due Date Filter and Sorting UI",
+            "description": "Create the UI components for filtering todos by due date (all/today/week/month) and sorting options (created date/due date/priority) with appropriate styling.",
+            "dependencies": [
+              "16.1"
+            ],
+            "details": "Add a dropdown or button group for due date filtering options. Implement the handleDueDateChange function to update the filter state. Create a separate dropdown for sorting options with the three sort criteria. Implement the handleSortChange function to update the sort option state. Style both components with Tailwind CSS to match the application design. Ensure the selected option is visually distinct from unselected options.",
+            "status": "pending",
+            "testStrategy": "Test that selecting different due date filter options updates the filter state correctly. Test that selecting different sort options updates the sort option state correctly. Verify that the UI correctly reflects the currently selected options."
+          },
+          {
+            "id": 3,
+            "title": "Implement Search Functionality with Debounce",
+            "description": "Create a search input field with debounce functionality to prevent excessive filtering operations during typing.",
+            "dependencies": [
+              "16.1"
+            ],
+            "details": "Add a search input field with appropriate styling. Implement debounce functionality using either a custom hook or a library like lodash.debounce. The debounce should delay updating the filter state until the user stops typing for a short period (e.g., 300ms). Update the handleSearch function to use the debounced search term. Add a clear button to reset the search term. Ensure the search input has appropriate placeholder text and accessibility attributes.",
+            "status": "pending",
+            "testStrategy": "Test that typing in the search field updates the search term after the debounce delay. Test that the clear button resets the search term. Verify that the search functionality works with partial matches and is case-insensitive."
+          },
+          {
+            "id": 4,
+            "title": "Complete Filter Logic Implementation in useTodos Hook",
+            "description": "Finish implementing the filtering and sorting logic in the useTodos hook, including due date filtering and sorting algorithms.",
+            "dependencies": [
+              "16.1",
+              "16.2",
+              "16.3"
+            ],
+            "details": "Complete the due date filtering logic for 'week' and 'month' options. For 'week', filter todos with due dates within the current week (Sunday to Saturday). For 'month', filter todos with due dates within the current month. Implement the sorting logic for all three sort options: 'createdAt' (newest first), 'dueDate' (soonest first), and 'priority' (high to low). Ensure that todos without due dates are handled appropriately in date-based filtering and sorting (e.g., placed at the end when sorting by due date). Optimize the filtering and sorting operations for performance.",
+            "status": "pending",
+            "testStrategy": "Test filtering todos by all combinations of status, priority, and due date. Test sorting todos by all three sort criteria. Verify that todos without due dates are handled correctly. Test the performance with a large number of todos to ensure the filtering and sorting operations are efficient."
+          },
+          {
+            "id": 5,
+            "title": "Integrate Filter Components and Add Reset Functionality",
+            "description": "Integrate all filter components into the TodoFilter component, implement a reset button to clear all filters, and connect the filtered results to the TodoList component.",
+            "dependencies": [
+              "16.1",
+              "16.2",
+              "16.3",
+              "16.4"
+            ],
+            "details": "Assemble all filter UI components into the TodoFilter component with appropriate layout and spacing. Add a 'Reset Filters' button that clears all filters and resets them to their default values. Implement a function to handle the reset action. Ensure the TodoList component displays the filtered and sorted todos from the useTodos hook. Add visual feedback when filters are active (e.g., a badge showing the number of active filters). Make the filter section collapsible on mobile devices to save space.",
+            "status": "pending",
+            "testStrategy": "Test that the reset button clears all filters correctly. Verify that the TodoList displays the correctly filtered and sorted todos. Test the responsive behavior of the filter section on different screen sizes. Verify that visual indicators for active filters work correctly."
+          }
+        ]
+      },
+      {
+        "id": 17,
+        "title": "Theme Toggle and Responsive Design",
+        "description": "Implement dark mode/light mode toggle and ensure responsive design across devices",
+        "details": "1. Create ThemeContext for managing theme state:\n```typescript\ninterface ThemeContextType {\n  theme: 'light' | 'dark';\n  toggleTheme: () => void;\n}\n\nconst ThemeContext = createContext<ThemeContextType | undefined>(undefined);\n\nexport const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {\n  const [theme, setTheme] = useState<'light' | 'dark'>(() => {\n    const savedTheme = localStorage.getItem('theme');\n    return (savedTheme === 'dark' || \n      (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches))\n      ? 'dark' : 'light';\n  });\n  \n  useEffect(() => {\n    if (theme === 'dark') {\n      document.documentElement.classList.add('dark');\n    } else {\n      document.documentElement.classList.remove('dark');\n    }\n    localStorage.setItem('theme', theme);\n  }, [theme]);\n  \n  const toggleTheme = () => {\n    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');\n  };\n  \n  return (\n    <ThemeContext.Provider value={{ theme, toggleTheme }}>\n      {children}\n    </ThemeContext.Provider>\n  );\n};\n\nexport const useTheme = () => {\n  const context = useContext(ThemeContext);\n  if (context === undefined) {\n    throw new Error('useTheme must be used within a ThemeProvider');\n  }\n  return context;\n};\n```\n\n2. Configure Tailwind CSS for dark mode:\n```javascript\n// tailwind.config.js\nmodule.exports = {\n  darkMode: 'class',\n  // other config\n};\n```\n\n3. Create ThemeToggle component:\n```typescript\nconst ThemeToggle: React.FC = () => {\n  const { theme, toggleTheme } = useTheme();\n  \n  return (\n    <button\n      onClick={toggleTheme}\n      className=\"p-2 rounded-full bg-gray-200 dark:bg-gray-700\"\n      aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}\n    >\n      {theme === 'light' ? (\n        <MoonIcon className=\"w-5 h-5\" />\n      ) : (\n        <SunIcon className=\"w-5 h-5\" />\n      )}\n    </button>\n  );\n};\n```\n\n4. Add responsive design classes to all components:\n   - Use Tailwind's responsive prefixes (sm:, md:, lg:)\n   - Implement mobile-first approach\n   - Create responsive navigation (hamburger menu for mobile)\n   - Adjust form layouts for different screen sizes\n\n5. Test on various device sizes and orientations",
+        "testStrategy": "1. Test theme toggle functionality\n2. Verify theme preference is saved in localStorage\n3. Test system preference detection\n4. Verify dark mode styling is applied correctly\n5. Test responsive design on multiple screen sizes (mobile, tablet, desktop)\n6. Verify layout adjusts appropriately on orientation change\n7. Test accessibility of theme toggle button\n8. Verify color contrast meets WCAG standards in both themes",
+        "priority": "medium",
+        "dependencies": [
+          11
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement ThemeContext and Provider",
+            "description": "Create the ThemeContext and ThemeProvider components to manage the application's theme state, including system preference detection and localStorage persistence.",
+            "dependencies": [],
+            "details": "1. Create a new file `src/contexts/ThemeContext.tsx`\n2. Implement the ThemeContextType interface\n3. Create the ThemeContext with React.createContext\n4. Implement the ThemeProvider component with useState to track theme\n5. Add logic to detect system preferences using window.matchMedia\n6. Set up localStorage persistence for theme preference\n7. Implement the useTheme hook for consuming the context\n8. Export all necessary components and hooks",
+            "status": "pending",
+            "testStrategy": "1. Test initial theme detection from localStorage\n2. Test system preference detection when no localStorage value exists\n3. Verify theme toggle functionality changes state correctly\n4. Confirm localStorage is updated when theme changes\n5. Test the useTheme hook throws appropriate error when used outside provider"
+          },
+          {
+            "id": 2,
+            "title": "Configure Tailwind for Dark Mode",
+            "description": "Update Tailwind CSS configuration to support class-based dark mode and create base theme variables for consistent styling.",
+            "dependencies": [
+              "17.1"
+            ],
+            "details": "1. Modify tailwind.config.js to enable class-based dark mode\n2. Add dark mode variants for colors in the theme configuration\n3. Create a set of custom CSS variables for theme colors in a new file `src/styles/theme.css`\n4. Define color palette for both light and dark modes\n5. Update the main CSS file to import theme variables\n6. Test that dark mode classes are properly applied when the 'dark' class is added to the HTML element",
+            "status": "pending",
+            "testStrategy": "1. Verify Tailwind correctly applies dark: prefixed classes when dark class is present\n2. Test color variables are correctly applied in both themes\n3. Check for any CSS specificity issues between themes"
+          },
+          {
+            "id": 3,
+            "title": "Create Theme Toggle Component",
+            "description": "Implement a reusable ThemeToggle component with appropriate icons and animations for switching between light and dark modes.",
+            "dependencies": [
+              "17.1",
+              "17.2"
+            ],
+            "details": "1. Create a new component file `src/components/ThemeToggle.tsx`\n2. Import the useTheme hook from ThemeContext\n3. Create a button component that calls toggleTheme when clicked\n4. Add appropriate accessibility attributes (aria-label)\n5. Implement conditional rendering for sun/moon icons based on current theme\n6. Add smooth transition animations between theme states\n7. Style the toggle button with appropriate colors for both themes\n8. Add hover and focus states for better UX",
+            "status": "pending",
+            "testStrategy": "1. Test the toggle button correctly calls toggleTheme when clicked\n2. Verify appropriate icon is displayed based on current theme\n3. Test accessibility attributes are correctly set\n4. Verify animations work correctly during theme transitions"
+          },
+          {
+            "id": 4,
+            "title": "Implement Responsive Layout Components",
+            "description": "Create responsive layout components and implement a mobile-first approach with a responsive navigation system including a hamburger menu for mobile devices.",
+            "dependencies": [
+              "17.2"
+            ],
+            "details": "1. Create a responsive container component that adapts to different screen sizes\n2. Implement a responsive navigation bar with desktop and mobile variants\n3. Create a hamburger menu component for mobile navigation\n4. Add animation for menu opening/closing\n5. Implement media queries using Tailwind's responsive prefixes (sm:, md:, lg:)\n6. Create responsive grid layouts for content sections\n7. Ensure form components adapt to different screen sizes\n8. Implement appropriate spacing and typography scaling for different devices",
+            "status": "pending",
+            "testStrategy": "1. Test navigation collapse/expand functionality on mobile devices\n2. Verify layout adjusts appropriately at each breakpoint\n3. Test touch interactions for mobile menu\n4. Verify forms remain usable on small screens\n5. Test keyboard navigation in both desktop and mobile layouts"
+          },
+          {
+            "id": 5,
+            "title": "Apply Theme and Responsive Design to All Components",
+            "description": "Update all existing components to support both dark/light themes and ensure they are fully responsive across all device sizes.",
+            "dependencies": [
+              "17.1",
+              "17.2",
+              "17.3",
+              "17.4"
+            ],
+            "details": "1. Create a comprehensive audit of all existing components\n2. Update each component to use theme-aware color classes (dark: prefixes)\n3. Replace hardcoded colors with theme variables where appropriate\n4. Add responsive classes to all components following mobile-first approach\n5. Test and adjust component layouts at different breakpoints\n6. Update typography to be responsive using relative units\n7. Ensure all interactive elements have appropriate hover/focus states in both themes\n8. Verify all components maintain proper contrast ratios in both themes for accessibility",
+            "status": "pending",
+            "testStrategy": "1. Test all components in both light and dark modes\n2. Verify components at multiple screen sizes (320px, 768px, 1024px, 1440px)\n3. Test orientation changes on tablet devices\n4. Verify contrast meets WCAG AA standards in both themes\n5. Test with screen readers to ensure accessibility is maintained\n6. Perform end-to-end testing of common user flows on multiple device sizes"
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "title": "Loading States and Error Handling",
+        "description": "Implement loading spinners, error messages, and toast notifications for better user experience",
+        "details": "1. Create reusable LoadingSpinner component:\n```typescript\nconst LoadingSpinner: React.FC<{ size?: 'small' | 'medium' | 'large' }> = ({ size = 'medium' }) => {\n  const sizeClasses = {\n    small: 'w-4 h-4',\n    medium: 'w-8 h-8',\n    large: 'w-12 h-12'\n  };\n  \n  return (\n    <div className=\"flex justify-center items-center\">\n      <div className={`${sizeClasses[size]} border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin`}></div>\n    </div>\n  );\n};\n```\n\n2. Create Toast notification system:\n```typescript\ntype ToastType = 'success' | 'error' | 'info';\n\ninterface Toast {\n  id: string;\n  message: string;\n  type: ToastType;\n}\n\ninterface ToastContextType {\n  toasts: Toast[];\n  showToast: (message: string, type: ToastType) => void;\n  hideToast: (id: string) => void;\n}\n\nconst ToastContext = createContext<ToastContextType | undefined>(undefined);\n\nexport const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {\n  const [toasts, setToasts] = useState<Toast[]>([]);\n  \n  const showToast = (message: string, type: ToastType) => {\n    const id = Date.now().toString();\n    setToasts(prev => [...prev, { id, message, type }]);\n    \n    // Auto-dismiss after 5 seconds\n    setTimeout(() => {\n      hideToast(id);\n    }, 5000);\n  };\n  \n  const hideToast = (id: string) => {\n    setToasts(prev => prev.filter(toast => toast.id !== id));\n  };\n  \n  return (\n    <ToastContext.Provider value={{ toasts, showToast, hideToast }}>\n      {children}\n      <ToastContainer />\n    </ToastContext.Provider>\n  );\n};\n\nconst ToastContainer: React.FC = () => {\n  const { toasts, hideToast } = useContext(ToastContext)!;\n  \n  return (\n    <div className=\"fixed bottom-4 right-4 z-50 space-y-2\">\n      {toasts.map(toast => (\n        <div \n          key={toast.id}\n          className={`p-3 rounded-lg shadow-lg flex justify-between items-center ${getToastColorClass(toast.type)}`}\n        >\n          <span>{toast.message}</span>\n          <button onClick={() => hideToast(toast.id)} className=\"ml-3\">\n            &times;\n          </button>\n        </div>\n      ))}\n    </div>\n  );\n};\n\nconst getToastColorClass = (type: ToastType) => {\n  switch (type) {\n    case 'success': return 'bg-green-100 text-green-800';\n    case 'error': return 'bg-red-100 text-red-800';\n    case 'info': return 'bg-blue-100 text-blue-800';\n  }\n};\n```\n\n3. Create ErrorBoundary component for catching React errors\n4. Add loading states to all async operations\n5. Implement error handling in API calls\n6. Add empty states for lists with no data\n7. Create skeleton loaders for content that's loading",
+        "testStrategy": "1. Test loading spinner displays during async operations\n2. Test toast notifications for success and error states\n3. Verify error messages display when operations fail\n4. Test auto-dismissal of toast notifications\n5. Verify empty states display correctly\n6. Test error boundary catches rendering errors\n7. Verify loading states are accessible (aria attributes)\n8. Test skeleton loaders during initial data fetch",
+        "priority": "medium",
+        "dependencies": [
+          11,
+          12,
+          13
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement ErrorBoundary Component",
+            "description": "Create a reusable ErrorBoundary component that catches JavaScript errors in child component trees and displays fallback UI instead of crashing the application.",
+            "dependencies": [],
+            "details": "Create an ErrorBoundary class component that uses componentDidCatch lifecycle method to catch errors. The component should maintain error state and render either children or fallback UI based on that state. Include options for custom error messages and retry functionality.\n\nExample implementation:\n```typescript\ninterface ErrorBoundaryProps {\n  fallback?: React.ReactNode;\n  onError?: (error: Error, errorInfo: React.ErrorInfo) => void;\n  children: React.ReactNode;\n}\n\ninterface ErrorBoundaryState {\n  hasError: boolean;\n  error: Error | null;\n}\n\nclass ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {\n  constructor(props: ErrorBoundaryProps) {\n    super(props);\n    this.state = { hasError: false, error: null };\n  }\n\n  static getDerivedStateFromError(error: Error): ErrorBoundaryState {\n    return { hasError: true, error };\n  }\n\n  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {\n    if (this.props.onError) {\n      this.props.onError(error, errorInfo);\n    }\n  }\n\n  resetError = (): void => {\n    this.setState({ hasError: false, error: null });\n  }\n\n  render(): React.ReactNode {\n    if (this.state.hasError) {\n      if (this.props.fallback) {\n        return this.props.fallback;\n      }\n      return (\n        <div className=\"p-4 border border-red-300 bg-red-50 rounded-md\">\n          <h2 className=\"text-lg font-semibold text-red-800\">Something went wrong</h2>\n          <p className=\"text-red-600 mt-1\">{this.state.error?.message}</p>\n          <button \n            onClick={this.resetError}\n            className=\"mt-2 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700\"\n          >\n            Try again\n          </button>\n        </div>\n      );\n    }\n\n    return this.props.children;\n  }\n}\n\nexport default ErrorBoundary;\n```",
+            "status": "pending",
+            "testStrategy": "1. Test that errors in child components are caught and fallback UI is displayed\n2. Test that the onError callback is called when an error occurs\n3. Test that the reset functionality works correctly\n4. Test with custom fallback UI\n5. Verify integration with the rest of the application by wrapping key components"
+          },
+          {
+            "id": 2,
+            "title": "Create Skeleton Loader Components",
+            "description": "Implement skeleton loader components that mimic the structure of the content being loaded to provide a better user experience during loading states.",
+            "dependencies": [],
+            "details": "Create reusable skeleton loader components for different content types (cards, lists, text, etc.) using CSS animations for the loading effect. These should be shown while content is loading.\n\n```typescript\ninterface SkeletonProps {\n  type?: 'text' | 'card' | 'list' | 'avatar';\n  lines?: number;\n  width?: string;\n  height?: string;\n}\n\nconst Skeleton: React.FC<SkeletonProps> = ({ \n  type = 'text', \n  lines = 1,\n  width,\n  height \n}) => {\n  const baseClass = 'animate-pulse bg-gray-200 rounded';\n  \n  const renderSkeleton = () => {\n    switch (type) {\n      case 'text':\n        return (\n          <div className=\"space-y-2\">\n            {Array(lines).fill(0).map((_, i) => (\n              <div \n                key={i} \n                className={`${baseClass} h-4`} \n                style={{ width: width || (i === lines - 1 ? '75%' : '100%') }}\n              />\n            ))}\n          </div>\n        );\n      case 'avatar':\n        return (\n          <div \n            className={`${baseClass} rounded-full`}\n            style={{ \n              width: width || '48px', \n              height: height || '48px' \n            }}\n          />\n        );\n      case 'card':\n        return (\n          <div className=\"border rounded-md p-4\">\n            <div className={`${baseClass} h-32 mb-4`} />\n            <div className=\"space-y-2\">\n              <div className={`${baseClass} h-4 w-3/4`} />\n              <div className={`${baseClass} h-4`} />\n              <div className={`${baseClass} h-4 w-1/2`} />\n            </div>\n          </div>\n        );\n      case 'list':\n        return (\n          <div className=\"space-y-3\">\n            {Array(lines).fill(0).map((_, i) => (\n              <div key={i} className=\"flex items-center space-x-3\">\n                <div className={`${baseClass} rounded-full h-10 w-10`} />\n                <div className=\"space-y-1 flex-1\">\n                  <div className={`${baseClass} h-4`} />\n                  <div className={`${baseClass} h-3 w-3/4`} />\n                </div>\n              </div>\n            ))}\n          </div>\n        );\n      default:\n        return null;\n    }\n  };\n  \n  return renderSkeleton();\n};\n\nexport default Skeleton;\n```",
+            "status": "pending",
+            "testStrategy": "1. Test rendering of different skeleton types\n2. Verify correct number of lines are rendered\n3. Test custom width and height props\n4. Check that animations work correctly\n5. Test integration with components that have loading states"
+          },
+          {
+            "id": 3,
+            "title": "Implement API Error Handling Utility",
+            "description": "Create a utility for handling API errors consistently across the application, including error parsing, logging, and user-friendly message generation.",
+            "dependencies": [],
+            "details": "Create a utility that handles API errors, extracts relevant information, and formats them for display to users. This should work with the toast notification system.\n\n```typescript\ninterface ApiError {\n  message: string;\n  code?: string;\n  status?: number;\n  details?: any;\n}\n\nclass ApiErrorHandler {\n  static parseError(error: any): ApiError {\n    // Handle Axios errors\n    if (error.response) {\n      return {\n        message: error.response.data?.message || 'Server error occurred',\n        code: error.response.data?.code,\n        status: error.response.status,\n        details: error.response.data\n      };\n    }\n    \n    // Handle Firebase errors\n    if (error.code && error.code.startsWith('auth/')) {\n      return {\n        message: this.getFirebaseAuthErrorMessage(error.code),\n        code: error.code\n      };\n    }\n    \n    // Handle network errors\n    if (error.message === 'Network Error') {\n      return {\n        message: 'Unable to connect to the server. Please check your internet connection.'\n      };\n    }\n    \n    // Handle generic errors\n    return {\n      message: error.message || 'An unexpected error occurred',\n      details: error\n    };\n  }\n  \n  static getFirebaseAuthErrorMessage(code: string): string {\n    switch (code) {\n      case 'auth/user-not-found':\n        return 'No account found with this email address';\n      case 'auth/wrong-password':\n        return 'Incorrect password';\n      case 'auth/email-already-in-use':\n        return 'An account with this email already exists';\n      case 'auth/weak-password':\n        return 'Password is too weak';\n      case 'auth/invalid-email':\n        return 'Invalid email address';\n      default:\n        return 'Authentication error';\n    }\n  }\n  \n  static async handleApiError(error: any, context?: string): Promise<ApiError> {\n    const parsedError = this.parseError(error);\n    \n    // Log error for debugging\n    console.error(`API Error ${context ? `in ${context}` : ''}:`, parsedError);\n    \n    // Could add error reporting service here\n    // e.g., Sentry.captureException(error);\n    \n    return parsedError;\n  }\n}\n\nexport default ApiErrorHandler;\n\n// Usage example:\n// try {\n//   await api.someMethod();\n// } catch (error) {\n//   const { message } = await ApiErrorHandler.handleApiError(error, 'user profile');\n//   showToast(message, 'error');\n// }\n```",
+            "status": "pending",
+            "testStrategy": "1. Test parsing of different error types (Axios, Firebase, network, generic)\n2. Test handling of specific Firebase auth error codes\n3. Verify error logging functionality\n4. Test integration with the toast notification system\n5. Verify correct error messages are generated for different error scenarios"
+          },
+          {
+            "id": 4,
+            "title": "Add Loading States to Async Operations",
+            "description": "Implement loading state management for all asynchronous operations in the application, including API calls and Firebase operations.",
+            "dependencies": [
+              "18.1",
+              "18.2",
+              "18.3"
+            ],
+            "details": "Create a custom hook for managing loading states and integrate it with existing async operations. Update components to show loading indicators or skeleton loaders during data fetching.\n\n```typescript\ninterface UseLoadingState<T> {\n  data: T | null;\n  loading: boolean;\n  error: ApiError | null;\n  execute: (...args: any[]) => Promise<T>;\n  reset: () => void;\n}\n\nfunction useLoadingState<T>(\n  asyncFunction: (...args: any[]) => Promise<T>,\n  initialData: T | null = null\n): UseLoadingState<T> {\n  const [data, setData] = useState<T | null>(initialData);\n  const [loading, setLoading] = useState<boolean>(false);\n  const [error, setError] = useState<ApiError | null>(null);\n  \n  const execute = async (...args: any[]): Promise<T> => {\n    try {\n      setLoading(true);\n      setError(null);\n      const result = await asyncFunction(...args);\n      setData(result);\n      return result;\n    } catch (err) {\n      const parsedError = await ApiErrorHandler.handleApiError(err);\n      setError(parsedError);\n      throw err;\n    } finally {\n      setLoading(false);\n    }\n  };\n  \n  const reset = () => {\n    setData(initialData);\n    setLoading(false);\n    setError(null);\n  };\n  \n  return { data, loading, error, execute, reset };\n}\n\n// Example usage in a component:\n// const TodoList: React.FC = () => {\n//   const { data: todos, loading, error, execute: fetchTodos } = useLoadingState<Todo[]>(getTodos, []);\n//   \n//   useEffect(() => {\n//     fetchTodos();\n//   }, []);\n//   \n//   if (loading) {\n//     return <Skeleton type=\"list\" lines={5} />;\n//   }\n//   \n//   if (error) {\n//     return <div className=\"text-red-500\">{error.message}</div>;\n//   }\n//   \n//   if (!todos || todos.length === 0) {\n//     return <EmptyState message=\"No todos found\" />;\n//   }\n//   \n//   return (\n//     <ul>\n//       {todos.map(todo => <TodoItem key={todo.id} todo={todo} />)}\n//     </ul>\n//   );\n// };\n```",
+            "status": "pending",
+            "testStrategy": "1. Test loading state transitions during async operations\n2. Verify loading indicators appear at appropriate times\n3. Test error handling when async operations fail\n4. Verify reset functionality works correctly\n5. Test integration with skeleton loaders and error displays"
+          },
+          {
+            "id": 5,
+            "title": "Create Empty State Components and Integrate Toast System",
+            "description": "Implement empty state components for when no data is available and integrate the toast notification system throughout the application for success and error messages.",
+            "dependencies": [
+              "18.1",
+              "18.2",
+              "18.3",
+              "18.4"
+            ],
+            "details": "Create reusable empty state components and integrate the toast notification system with all user actions that require feedback. This includes form submissions, data operations, and error scenarios.\n\n```typescript\ninterface EmptyStateProps {\n  message: string;\n  icon?: React.ReactNode;\n  action?: {\n    label: string;\n    onClick: () => void;\n  };\n}\n\nconst EmptyState: React.FC<EmptyStateProps> = ({ message, icon, action }) => {\n  return (\n    <div className=\"flex flex-col items-center justify-center py-12 px-4 text-center\">\n      {icon || (\n        <svg className=\"w-16 h-16 text-gray-400\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n          <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={1.5} d=\"M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4\" />\n        </svg>\n      )}\n      <p className=\"mt-4 text-lg font-medium text-gray-600\">{message}</p>\n      {action && (\n        <button\n          onClick={action.onClick}\n          className=\"mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2\"\n        >\n          {action.label}\n        </button>\n      )}\n    </div>\n  );\n};\n\n// Create a custom hook for using the toast system\nconst useToast = () => {\n  const context = useContext(ToastContext);\n  if (!context) {\n    throw new Error('useToast must be used within a ToastProvider');\n  }\n  return context;\n};\n\n// Example integration in a component:\n// const TodoForm: React.FC = () => {\n//   const { showToast } = useToast();\n//   const { loading, error, execute: createTodo } = useLoadingState(addTodo);\n//   \n//   const handleSubmit = async (e: React.FormEvent) => {\n//     e.preventDefault();\n//     try {\n//       await createTodo({ title, description, dueDate });\n//       showToast('Todo created successfully!', 'success');\n//       resetForm();\n//     } catch (err) {\n//       // Error already handled by useLoadingState\n//     }\n//   };\n//   \n//   return (\n//     <form onSubmit={handleSubmit}>\n//       {/* Form fields */}\n//       <button type=\"submit\" disabled={loading}>\n//         {loading ? <LoadingSpinner size=\"small\" /> : 'Create Todo'}\n//       </button>\n//     </form>\n//   );\n// };\n```\n\nAlso, update the main App component to wrap the application with the necessary providers:\n\n```typescript\nconst App: React.FC = () => {\n  return (\n    <ErrorBoundary>\n      <ToastProvider>\n        <Router>\n          <Routes>\n            {/* Application routes */}\n          </Routes>\n        </Router>\n      </ToastProvider>\n    </ErrorBoundary>\n  );\n};\n```",
+            "status": "pending",
+            "testStrategy": "1. Test empty state components with different configurations\n2. Verify toast notifications appear for success and error cases\n3. Test auto-dismissal of toast notifications\n4. Verify toast notifications stack correctly when multiple are shown\n5. Test integration with form submissions and API calls\n6. Verify error boundary catches rendering errors and displays fallback UI"
+          }
+        ]
+      },
+      {
+        "id": 19,
+        "title": "Firebase Security Rules Implementation",
+        "description": "Implement and test Firebase security rules to ensure data protection and proper access control",
+        "details": "1. Create Firestore security rules according to PRD:\n```javascript\nrules_version = '2';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n    match /todos/{todoId} {\n      allow read, update, delete: if request.auth != null && \n        request.auth.uid == resource.data.userId;\n      allow create: if request.auth != null && \n        request.auth.uid == request.resource.data.userId;\n    }\n    match /users/{userId} {\n      allow read, update, delete: if request.auth != null && \n        request.auth.uid == userId;\n      allow create: if request.auth != null && \n        request.auth.uid == userId;\n    }\n  }\n}\n```\n\n2. Create validation rules for Todo data:\n```javascript\nfunction isValidTodo(data) {\n  return data.size() >= 5 &&\n    'userId' in data && data.userId is string &&\n    'title' in data && data.title is string && data.title.size() > 0 &&\n    'completed' in data && data.completed is bool &&\n    'createdAt' in data && data.createdAt is timestamp &&\n    'updatedAt' in data && data.updatedAt is timestamp &&\n    'priority' in data && data.priority in ['high', 'medium', 'low'];\n}\n```\n\n3. Add rules to prevent unauthorized access to other users' data\n4. Test security rules with the Firebase Emulator Suite\n5. Create test cases for different access scenarios\n6. Implement client-side validation to match security rules\n7. Document security implementation",
+        "testStrategy": "1. Test reading todos as an authenticated user (should succeed for own todos)\n2. Test reading todos as an unauthenticated user (should fail)\n3. Test reading another user's todos (should fail)\n4. Test creating a todo with valid data (should succeed)\n5. Test creating a todo with invalid data (should fail)\n6. Test updating own todos (should succeed)\n7. Test updating another user's todos (should fail)\n8. Test deleting own todos (should succeed)\n9. Test deleting another user's todos (should fail)",
+        "priority": "high",
+        "dependencies": [
+          11,
+          12,
+          13
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Basic Firestore Security Rules",
+            "description": "Create and deploy the basic security rules structure for Firestore that controls read/write access for todos and users collections based on authentication status and user ID matching.",
+            "dependencies": [],
+            "details": "1. Create a new file named `firestore.rules` in the project root\n2. Implement the basic security rules structure as specified in the PRD:\n```javascript\nrules_version = '2';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n    match /todos/{todoId} {\n      allow read, update, delete: if request.auth != null && \n        request.auth.uid == resource.data.userId;\n      allow create: if request.auth != null && \n        request.auth.uid == request.resource.data.userId;\n    }\n    match /users/{userId} {\n      allow read, update, delete: if request.auth != null && \n        request.auth.uid == userId;\n      allow create: if request.auth != null && \n        request.auth.uid == userId;\n    }\n  }\n}\n```\n3. Deploy the rules using Firebase CLI: `firebase deploy --only firestore:rules`",
+            "status": "pending",
+            "testStrategy": "1. Manually test basic rule functionality using Firebase console\n2. Verify rules syntax using the Firebase CLI: `firebase deploy --only firestore:rules --dry-run`"
+          },
+          {
+            "id": 2,
+            "title": "Implement Data Validation Rules",
+            "description": "Enhance security rules with data validation functions to ensure todos have the required fields and proper data types before allowing write operations.",
+            "dependencies": [
+              "19.1"
+            ],
+            "details": "1. Update the `firestore.rules` file to add validation functions\n2. Implement the `isValidTodo` function as specified in the PRD:\n```javascript\nfunction isValidTodo(data) {\n  return data.size() >= 5 &&\n    'userId' in data && data.userId is string &&\n    'title' in data && data.title is string && data.title.size() > 0 &&\n    'completed' in data && data.completed is bool &&\n    'createdAt' in data && data.createdAt is timestamp &&\n    'updatedAt' in data && data.updatedAt is timestamp &&\n    'priority' in data && data.priority in ['high', 'medium', 'low'];\n}\n```\n3. Add a similar validation function for user data\n4. Update the todo creation rule to use validation: `allow create: if request.auth != null && request.auth.uid == request.resource.data.userId && isValidTodo(request.resource.data);`\n5. Deploy the updated rules",
+            "status": "pending",
+            "testStrategy": "1. Test creating todos with valid data (should succeed)\n2. Test creating todos with missing fields (should fail)\n3. Test creating todos with incorrect data types (should fail)\n4. Test creating todos with invalid priority values (should fail)"
+          },
+          {
+            "id": 3,
+            "title": "Set Up Firebase Emulator for Testing",
+            "description": "Configure and initialize the Firebase Emulator Suite to enable local testing of security rules without affecting production data.",
+            "dependencies": [
+              "19.1",
+              "19.2"
+            ],
+            "details": "1. Install Firebase Emulator Suite if not already installed: `npm install -g firebase-tools`\n2. Initialize the Firebase Emulator Suite: `firebase init emulators` and select Firestore and Authentication emulators\n3. Create a `firebase.json` configuration file if it doesn't exist, or update it to include emulator settings:\n```json\n{\n  \"firestore\": {\n    \"rules\": \"firestore.rules\",\n    \"indexes\": \"firestore.indexes.json\"\n  },\n  \"emulators\": {\n    \"auth\": {\n      \"port\": 9099\n    },\n    \"firestore\": {\n      \"port\": 8080\n    },\n    \"ui\": {\n      \"enabled\": true\n    }\n  }\n}\n```\n4. Update the application's Firebase initialization code to connect to emulators in development mode:\n```typescript\nif (process.env.NODE_ENV === 'development') {\n  connectFirestoreEmulator(db, 'localhost', 8080);\n  connectAuthEmulator(auth, 'http://localhost:9099');\n}\n```",
+            "status": "pending",
+            "testStrategy": "1. Start the emulator with `firebase emulators:start`\n2. Verify the emulator UI is accessible at http://localhost:4000\n3. Confirm the application connects to the emulators instead of production Firebase services in development mode"
+          },
+          {
+            "id": 4,
+            "title": "Create Automated Security Rules Tests",
+            "description": "Develop a comprehensive test suite for security rules using the Firebase Testing SDK to verify all access patterns and validation rules work as expected.",
+            "dependencies": [
+              "19.3"
+            ],
+            "details": "1. Create a new directory for tests: `mkdir -p tests/rules`\n2. Install testing dependencies: `npm install -D @firebase/rules-unit-testing jest ts-jest`\n3. Create a Jest configuration file for the tests\n4. Create a test file `tests/rules/firestore.rules.test.ts` with test cases for different scenarios:\n```typescript\nimport * as firebase from '@firebase/rules-unit-testing';\nimport { initializeTestEnvironment, RulesTestEnvironment } from '@firebase/rules-unit-testing';\n\nlet testEnv: RulesTestEnvironment;\n\nbeforeAll(async () => {\n  testEnv = await initializeTestEnvironment({\n    projectId: 'demo-project-id',\n    firestore: {\n      rules: fs.readFileSync('firestore.rules', 'utf8'),\n    },\n  });\n});\n\nafterAll(async () => {\n  await testEnv.cleanup();\n});\n\ndescribe('Todo Collection Rules', () => {\n  // Test authenticated user can read own todos\n  // Test unauthenticated user cannot read todos\n  // Test user cannot read another user's todos\n  // Test todo creation with valid data\n  // Test todo creation with invalid data\n  // Test todo update and delete permissions\n});\n\ndescribe('User Collection Rules', () => {\n  // Similar tests for user collection\n});\n```\n5. Implement each test case with appropriate assertions\n6. Add a npm script to run the tests: `\"test:rules\": \"jest --config jest.config.js tests/rules/\"` in package.json",
+            "status": "pending",
+            "testStrategy": "1. Run the tests with `npm run test:rules`\n2. Verify all test cases pass\n3. Add test coverage reporting to identify any untested rules\n4. Ensure tests cover all access patterns: read, create, update, delete for both authenticated and unauthenticated users"
+          },
+          {
+            "id": 5,
+            "title": "Implement Client-Side Validation and Documentation",
+            "description": "Create client-side validation that mirrors the security rules and document the security implementation to ensure consistent data validation and clear understanding of the security model.",
+            "dependencies": [
+              "19.2",
+              "19.4"
+            ],
+            "details": "1. Create a validation utility file `src/utils/validation.ts` that implements the same validation logic as the security rules:\n```typescript\nexport interface TodoData {\n  userId: string;\n  title: string;\n  completed: boolean;\n  createdAt: Date;\n  updatedAt: Date;\n  priority: 'high' | 'medium' | 'low';\n}\n\nexport const validateTodo = (data: Partial<TodoData>): boolean => {\n  return !!data.userId && typeof data.userId === 'string' &&\n    !!data.title && typeof data.title === 'string' && data.title.length > 0 &&\n    typeof data.completed === 'boolean' &&\n    data.createdAt instanceof Date &&\n    data.updatedAt instanceof Date &&\n    !!data.priority && ['high', 'medium', 'low'].includes(data.priority);\n};\n```\n2. Integrate the validation in the Todo form component before submitting data to Firestore\n3. Create a markdown documentation file `SECURITY.md` that explains:\n   - The security model and access patterns\n   - Explanation of the security rules implementation\n   - How client and server validation work together\n   - Testing approach for security rules\n   - Best practices for maintaining security\n4. Update the README.md to reference the security documentation",
+            "status": "pending",
+            "testStrategy": "1. Create unit tests for the client-side validation functions\n2. Test the validation in the UI by attempting to submit invalid data\n3. Verify the documentation accurately reflects the implemented security model\n4. Have another team member review the security documentation for clarity and completeness"
+          }
+        ]
+      },
+      {
+        "id": 20,
+        "title": "Firebase Hosting Deployment",
+        "description": "Configure and deploy the application to Firebase Hosting with proper build optimization",
+        "details": "1. Install Firebase CLI:\n```bash\nnpm install -g firebase-tools\n```\n\n2. Initialize Firebase Hosting:\n```bash\nfirebase login\nfirebase init hosting\n```\n\n3. Configure build settings in firebase.json:\n```json\n{\n  \"hosting\": {\n    \"public\": \"dist\",\n    \"ignore\": [\n      \"firebase.json\",\n      \"**/.*\",\n      \"**/node_modules/**\"\n    ],\n    \"rewrites\": [\n      {\n        \"source\": \"**\",\n        \"destination\": \"/index.html\"\n      }\n    ],\n    \"headers\": [\n      {\n        \"source\": \"/**\",\n        \"headers\": [\n          {\n            \"key\": \"Cache-Control\",\n            \"value\": \"public, max-age=3600\"\n          }\n        ]\n      },\n      {\n        \"source\": \"**/*.@(js|css)\",\n        \"headers\": [\n          {\n            \"key\": \"Cache-Control\",\n            \"value\": \"public, max-age=31536000\"\n          }\n        ]\n      }\n    ]\n  }\n}\n```\n\n4. Optimize build for production:\n   - Enable code splitting\n   - Configure environment variables\n   - Optimize images and assets\n   - Enable gzip compression\n\n5. Create build script in package.json:\n```json\n\"scripts\": {\n  \"build\": \"vite build\",\n  \"deploy\": \"npm run build && firebase deploy --only hosting\"\n}\n```\n\n6. Test the production build locally:\n```bash\nnpm run build\nnpx serve -s dist\n```\n\n7. Deploy to Firebase Hosting:\n```bash\nnpm run deploy\n```\n\n8. Configure custom domain (if applicable)",
+        "testStrategy": "1. Test production build locally before deployment\n2. Verify all routes work correctly with Firebase Hosting rewrites\n3. Test application performance using Lighthouse\n4. Verify environment variables are correctly applied\n5. Test application on different browsers and devices after deployment\n6. Verify authentication flows work in production\n7. Check for any console errors in production\n8. Measure initial load time and optimize if necessary",
+        "priority": "medium",
+        "dependencies": [
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Install and Configure Firebase CLI",
+            "description": "Install the Firebase CLI globally and authenticate with Firebase to enable deployment capabilities",
+            "dependencies": [],
+            "details": "1. Install Firebase CLI globally using npm:\n```bash\nnpm install -g firebase-tools\n```\n2. Login to Firebase using the CLI:\n```bash\nfirebase login\n```\n3. Verify successful login by checking authentication status:\n```bash\nfirebase projects:list\n```\n4. Create a .firebaserc file in the project root to link to your Firebase project:\n```json\n{\n  \"projects\": {\n    \"default\": \"your-firebase-project-id\"\n  }\n}\n```",
+            "status": "pending",
+            "testStrategy": "Verify Firebase CLI installation by checking version with `firebase --version`. Confirm successful login by ensuring `firebase projects:list` displays your Firebase projects without errors."
+          },
+          {
+            "id": 2,
+            "title": "Initialize Firebase Hosting and Configure firebase.json",
+            "description": "Set up Firebase Hosting in the project and create a properly configured firebase.json file with optimized caching and routing settings",
+            "dependencies": [
+              "20.1"
+            ],
+            "details": "1. Initialize Firebase Hosting in the project:\n```bash\nfirebase init hosting\n```\n2. When prompted:\n   - Select your Firebase project\n   - Specify 'dist' as your public directory\n   - Configure as a single-page app (Yes)\n   - Set up automatic builds and deploys with GitHub (No for now)\n3. Modify the generated firebase.json file to include optimized caching and routing:\n```json\n{\n  \"hosting\": {\n    \"public\": \"dist\",\n    \"ignore\": [\n      \"firebase.json\",\n      \"**/.*\",\n      \"**/node_modules/**\"\n    ],\n    \"rewrites\": [\n      {\n        \"source\": \"**\",\n        \"destination\": \"/index.html\"\n      }\n    ],\n    \"headers\": [\n      {\n        \"source\": \"/**\",\n        \"headers\": [\n          {\n            \"key\": \"Cache-Control\",\n            \"value\": \"public, max-age=3600\"\n          }\n        ]\n      },\n      {\n        \"source\": \"**/*.@(js|css)\",\n        \"headers\": [\n          {\n            \"key\": \"Cache-Control\",\n            \"value\": \"public, max-age=31536000\"\n          }\n        ]\n      }\n    ]\n  }\n}```",
+            "status": "pending",
+            "testStrategy": "Validate firebase.json syntax using `firebase hosting:config`. Check for proper configuration of public directory, rewrites, and caching headers."
+          },
+          {
+            "id": 3,
+            "title": "Configure Build Optimization for Production",
+            "description": "Set up build optimization techniques to improve application performance in production",
+            "dependencies": [
+              "20.1",
+              "20.2"
+            ],
+            "details": "1. Create or update vite.config.ts to enable code splitting and optimization:\n```typescript\nimport { defineConfig } from 'vite'\nimport react from '@vitejs/plugin-react'\nimport { splitVendorChunkPlugin } from 'vite'\nimport { compression } from 'vite-plugin-compression'\n\nexport default defineConfig({\n  plugins: [\n    react(),\n    splitVendorChunkPlugin(),\n    compression({\n      algorithm: 'gzip',\n      ext: '.gz'\n    })\n  ],\n  build: {\n    sourcemap: false,\n    minify: 'terser',\n    cssCodeSplit: true,\n    rollupOptions: {\n      output: {\n        manualChunks: {\n          vendor: ['react', 'react-dom', 'react-router-dom'],\n          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore']\n        }\n      }\n    }\n  }\n})\n```\n2. Create .env.production file for production environment variables:\n```\nVITE_FIREBASE_API_KEY=your-api-key\nVITE_FIREBASE_AUTH_DOMAIN=your-project-id.firebaseapp.com\nVITE_FIREBASE_PROJECT_ID=your-project-id\nVITE_FIREBASE_STORAGE_BUCKET=your-project-id.appspot.com\nVITE_FIREBASE_MESSAGING_SENDER_ID=your-sender-id\nVITE_FIREBASE_APP_ID=your-app-id\n```\n3. Install required optimization dependencies:\n```bash\nnpm install --save-dev vite-plugin-compression terser\n```",
+            "status": "pending",
+            "testStrategy": "Run a test build with `npm run build` and verify bundle sizes. Use Lighthouse in Chrome DevTools to measure performance metrics. Check that environment variables are correctly applied in the build."
+          },
+          {
+            "id": 4,
+            "title": "Create Deployment Scripts and Test Locally",
+            "description": "Set up deployment scripts in package.json and test the production build locally before deployment",
+            "dependencies": [
+              "20.2",
+              "20.3"
+            ],
+            "details": "1. Update package.json with build and deployment scripts:\n```json\n\"scripts\": {\n  \"build\": \"vite build\",\n  \"preview\": \"vite preview\",\n  \"serve-build\": \"npx serve -s dist\",\n  \"deploy\": \"npm run build && firebase deploy --only hosting\",\n  \"deploy:preview\": \"npm run build && firebase hosting:channel:deploy preview\"\n}\n```\n2. Install serve for local testing:\n```bash\nnpm install --save-dev serve\n```\n3. Test the production build locally:\n```bash\nnpm run build\nnpm run serve-build\n```\n4. Verify all routes and functionality work correctly in the local production build\n5. Create a pre-deployment checklist in the project root as deploy-checklist.md:\n```markdown\n# Deployment Checklist\n- [ ] All environment variables are set correctly\n- [ ] Application builds without errors\n- [ ] All routes work correctly in local production build\n- [ ] Images and assets are optimized\n- [ ] Firebase configuration is correct\n```",
+            "status": "pending",
+            "testStrategy": "Test all application routes in the local production build. Verify that client-side routing works correctly with the SPA configuration. Check that environment variables are correctly applied. Run Lighthouse tests on the local build to identify any performance issues."
+          },
+          {
+            "id": 5,
+            "title": "Deploy to Firebase and Configure Custom Domain",
+            "description": "Deploy the application to Firebase Hosting and set up a custom domain if applicable",
+            "dependencies": [
+              "20.1",
+              "20.2",
+              "20.3",
+              "20.4"
+            ],
+            "details": "1. Deploy the application to Firebase Hosting:\n```bash\nnpm run deploy\n```\n2. Verify the deployment was successful by visiting the provided Firebase Hosting URL\n3. To configure a custom domain (if applicable):\n   a. Go to Firebase Console > Hosting > Add custom domain\n   b. Follow the verification process to prove domain ownership\n   c. Update DNS settings with your domain registrar:\n      - Add an A record pointing to Firebase's IP addresses\n      - Add TXT records for domain verification\n   d. Configure SSL certificate through Firebase Console\n4. Create a post-deployment verification script in the project root as verify-deployment.js:\n```javascript\nconst fetch = require('node-fetch');\nconst url = process.env.DEPLOYMENT_URL || 'https://your-firebase-app.web.app';\n\nasync function verifyDeployment() {\n  try {\n    const response = await fetch(url);\n    console.log(`Status: ${response.status}`);\n    console.log(`Deployment verification ${response.ok ? 'PASSED' : 'FAILED'}`);\n    process.exit(response.ok ? 0 : 1);\n  } catch (error) {\n    console.error('Deployment verification failed:', error);\n    process.exit(1);\n  }\n}\n\nverifyDeployment();\n```\n5. Add a verification script to package.json:\n```json\n\"scripts\": {\n  \"verify-deployment\": \"node verify-deployment.js\"\n}\n```",
+            "status": "pending",
+            "testStrategy": "After deployment, run comprehensive tests on the live site. Test the application on different browsers and devices. Verify all routes work correctly with Firebase Hosting rewrites. Run Lighthouse tests on the deployed site to measure performance. If using a custom domain, verify SSL certificate is working properly and redirects are functioning."
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-08-19T04:51:46.304Z",
+      "updated": "2025-08-19T06:51:59.909Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

@@ -1,0 +1,73 @@
+# Task ID: 13
+# Title: Todo Data Model and Firestore Integration
+# Status: pending
+# Dependencies: 11, 12
+# Priority: high
+# Description: Implement Firestore data models and CRUD operations for Todo items
+# Details:
+1. Create Todo interface according to PRD specifications:
+```typescript
+interface Todo {
+  id: string;
+  userId: string;
+  title: string;
+  description?: string;
+  completed: boolean;
+  priority: 'high' | 'medium' | 'low';
+  dueDate?: Timestamp;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+```
+2. Implement Firestore service functions in firestore.ts:
+```typescript
+import { db } from '../utils/firebase';
+import { collection, addDoc, doc, updateDoc, deleteDoc, query, where, orderBy, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { Todo } from '../types';
+
+const TODOS_COLLECTION = 'todos';
+
+export const addTodo = async (userId: string, todoData: Omit<Todo, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => {
+  const todoRef = collection(db, TODOS_COLLECTION);
+  return addDoc(todoRef, {
+    ...todoData,
+    userId,
+    completed: false,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp()
+  });
+};
+
+export const updateTodo = async (todoId: string, updates: Partial<Omit<Todo, 'id' | 'userId' | 'createdAt'>>) => {
+  const todoRef = doc(db, TODOS_COLLECTION, todoId);
+  return updateDoc(todoRef, {
+    ...updates,
+    updatedAt: serverTimestamp()
+  });
+};
+
+export const deleteTodo = (todoId: string) => {
+  const todoRef = doc(db, TODOS_COLLECTION, todoId);
+  return deleteDoc(todoRef);
+};
+
+export const getUserTodosQuery = (userId: string) => {
+  return query(
+    collection(db, TODOS_COLLECTION),
+    where('userId', '==', userId),
+    orderBy('createdAt', 'desc')
+  );
+};
+```
+3. Create TodoContext for managing Todo state
+4. Implement useTodos custom hook for accessing Todo operations
+5. Set up Firestore security rules according to PRD
+
+# Test Strategy:
+1. Test creating a new Todo item in Firestore
+2. Test updating Todo properties (title, description, priority, etc.)
+3. Test toggling Todo completion status
+4. Test deleting a Todo item
+5. Verify real-time updates are reflected in the UI
+6. Test Firestore security rules to ensure users can only access their own Todos
+7. Verify data structure matches the PRD specifications

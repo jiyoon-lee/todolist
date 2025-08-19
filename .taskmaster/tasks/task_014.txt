@@ -1,0 +1,76 @@
+# Task ID: 14
+# Title: Todo Form and Creation UI
+# Status: pending
+# Dependencies: 13
+# Priority: high
+# Description: Implement UI components for creating new Todo items with title, description, due date, and priority
+# Details:
+1. Create TodoForm component with the following fields:
+   - Title input (required)
+   - Description textarea (optional)
+   - Due date picker (optional)
+   - Priority selector (high/medium/low)
+   - Submit button
+
+2. Implement form validation:
+```typescript
+const TodoForm: React.FC = () => {
+  const { addTodo } = useTodos();
+  const { currentUser } = useAuth();
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [dueDate, setDueDate] = useState<Date | null>(null);
+  const [priority, setPriority] = useState<'high' | 'medium' | 'low'>('medium');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title.trim()) {
+      setError('Title is required');
+      return;
+    }
+    if (!currentUser) return;
+    
+    setLoading(true);
+    try {
+      await addTodo(currentUser.uid, {
+        title,
+        description: description || undefined,
+        dueDate: dueDate ? Timestamp.fromDate(dueDate) : undefined,
+        priority,
+        completed: false
+      });
+      // Reset form
+      setTitle('');
+      setDescription('');
+      setDueDate(null);
+      setPriority('medium');
+      setError('');
+    } catch (err) {
+      setError('Failed to create todo');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* Form fields implementation */}
+    </form>
+  );
+};
+```
+3. Style the form using Tailwind CSS
+4. Add loading state and error handling
+5. Implement responsive design for mobile and desktop
+
+# Test Strategy:
+1. Test form validation (empty title, valid inputs)
+2. Test creating Todo with minimum required fields
+3. Test creating Todo with all fields
+4. Verify form resets after successful submission
+5. Test error handling when submission fails
+6. Verify responsive design on different screen sizes
+7. Test keyboard navigation and accessibility
